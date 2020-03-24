@@ -20,7 +20,7 @@ exports.create = (req, res) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Catalogo."
+          err.message || "SOome error occurred while creating the Catalogo."
       });
     else res.send(data);
   });
