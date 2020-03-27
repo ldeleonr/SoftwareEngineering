@@ -70,6 +70,10 @@ export class Servicios {
      return this.http.get(`${this.urlPuntosAtencion}`);
    }
 
+   public updatePuntosAtencion(id:any,puntoAtencion: Object):Observable<any>{
+    return this.http.put(`${this.urlPuntosAtencion}/${id}`, puntoAtencion);
+  }
+
 
 
 

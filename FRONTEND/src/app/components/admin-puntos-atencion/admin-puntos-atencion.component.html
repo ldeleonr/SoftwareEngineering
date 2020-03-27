@@ -94,7 +94,7 @@
                 </a>
               </div>
               <div class="col-sm-6">
-                <a (click)="deleteEmployee(i)" class="btn btn-danger">
+                <a (click)="delete(i)" class="btn btn-danger">
                   Eliminar
                 </a>
               </div>
@@ -109,11 +109,12 @@
       <form class="form-horizontal">
         <form [formGroup]="userFormUpdate" (ngSubmit)="onSubmit"></form><form [formGroup]="userForm" (ngSubmit)="onSubmit">
           <div class="form-group">
+
             <label for="email" class="control-label col-sm-12">
-              Ingrese el nombre del punto de atención
+              Ingrese la region
             </label>
             <div class="col-sm-10">
-              <select class="form-control" formControlName="region" [(ngModel)]="model2.name">
+              <select class="form-control" formControlName="region" [(ngModel)]="model2.name" disabled>
                 <option *ngFor="let regiones of listaRegiones" [value]="model2.name">
                   {{regiones.nombre}}
                 </option>
@@ -138,7 +139,7 @@
             <div class="col-sm-10">
 
               <select class="form-control" formControlName="estado"  [(ngModel)]="model2.email">
-                <option *ngFor="let estados of listaEstados"  [value]="model2.email">
+                <option *ngFor="let estados of listaEstados"  [value]="estados.codigodato">
                   {{estados.nombre}}
                 </option>
               </select>
@@ -146,7 +147,7 @@
           </div>
           <div class="form-group">
             <div class="col-sm-10 col-sm-offset-2">
-              <button type="submit" class="btn btn-success" (click)="registrar()">
+              <button type="submit" class="btn btn-success" (click)="update()">
                 Guardar
               </button>
             </div>
