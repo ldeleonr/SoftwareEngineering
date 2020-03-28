@@ -79,5 +79,8 @@ export class Servicios {
   public addUser(user: Object) : Observable <any> {
     return this.http.post<any>(`${this.urlUsers}`, user);
    }
+   public updateUser(id:any, users: Object):Observable<any>{
+    return this.http.put(`${this.urlUsers}/${id}`, users);
+  }
 
 }

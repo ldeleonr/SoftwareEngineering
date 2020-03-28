@@ -9,13 +9,15 @@ import { Servicios } from '../../servicios/servicios.service';
 export class AdminUserPaComponent implements OnInit {
   listaRegiones: any[] = [];
   listaEstados: any[] = [];
-  listaPuntos: any[] = []
+  listaPuntos: any[] = [];
   listaCargos: any[] = [];
   listaUsuarios: any[] = [];
   listaTempUsers: any[] = [];
   title = 'Angular Crud';
   region = new FormControl('');
+  estadoUpdate = new FormControl('');
   userForm: FormGroup;
+  userFormUpdate: FormGroup;
   constructor(
     private servicios: Servicios,
     private fb: FormBuilder
@@ -30,6 +32,12 @@ export class AdminUserPaComponent implements OnInit {
       segundoApellido : ['', [Validators.required]],
       email : ['', [Validators.email]],
       cargo : ['',[Validators.required]]
+    });
+    this.userFormUpdate = this.fb.group({
+      id:[''],
+      estado: ['' ],
+      correo : [''],
+      cargo : ['']
     });
    }
 
@@ -111,6 +119,12 @@ export class AdminUserPaComponent implements OnInit {
   myValue;
 
   editEmployee(i):void {
+    console.log('esto es employee', this.employees[i]);
+    this.userFormUpdate.patchValue({
+      id: this.employees[i].id,
+      correo: this.employees[i].email,
+      });
+
     this.hideUpdate = false;
     this.model2.region = this.employees[i].region;
     this.model2.punto = this.employees[i].punto;
@@ -121,18 +135,46 @@ export class AdminUserPaComponent implements OnInit {
     this.model2.segundo_apellido = this.employees[i].segundo_apellido;
     this.model2.email = this.employees[i].email;
     this.model2.cargo = this.employees[i].cargo;
+    this.model2.estado = this.employees[i].estado;
+    console.log(this.model2);
     this.myValue = i;
   }
 
   updateEmployee():void {
-    let i = this.myValue;
-    for(let j = 0; j < this.employees.length; j++){
-      if(i == j) {
-        this.employees[i] = this.model2;
-        this.msg = 'Se actualizaron correctamente los Datos del Usuario de Punto de Atención';
-        this.model2 = {};
-      }
+    console.log('ESTO LLEGA EN UPDATE ', this.userFormUpdate);
+    console.log(this.employees[this.userFormUpdate.value.id]);
+    let codigopunto: 0;
+    for (let k = 0; k < this.listaPuntos.length ; k++) {
+     // console.log('ESTADOOO CUANDO SE ESTA CARGANDO EL USUARIO', this.listaPuntos[k]);
+      if (this.listaPuntos[k].nombre === this.employees[this.userFormUpdate.value.id].punto) {
+         // console.log();
+          codigopunto = this.listaPuntos[k].id;
+        }
     }
+
+   // console.log('CODIGOOOOOO PUNTOOOO', codigopunto);
+    const user = {
+      dpi: this.employees[this.userFormUpdate.value.id].dpi,
+      primernombre:this.employees[this.userFormUpdate.value.id].primer_nombre,
+      segundonombre:this.employees[this.userFormUpdate.value.id].segundo_nombre,
+      cargo: parseInt(this.userFormUpdate.value.cargo, 10) ,
+      primerapellido: this.employees[this.userFormUpdate.value.id].primer_apellido,
+      segundoapellido: this.employees[this.userFormUpdate.value.id].segundo_apellido,
+      email: this.userFormUpdate.value.correo,
+      usuario: this.userFormUpdate.value.correo,
+      estado: parseInt(this.userFormUpdate.value.estado, 10) ,
+      password:this.employees[this.userFormUpdate.value.id].password,
+      codigopuntoasignado: codigopunto
+    };
+
+    this.servicios.updateUser(this.userFormUpdate.value.id, user).subscribe(res=>{
+      console.log('RESPUESTA DE UPDATE', res);
+      this.msg = 'Se actualizaron correctamente los Datos del Usuario de Punto de Atención';
+      this.obtenerUsuarios();
+    });
+    let i = this.myValue;
+
+
   }
 
   closeAlert():void {
@@ -178,23 +220,67 @@ export class AdminUserPaComponent implements OnInit {
       region: ''
       });
   }
+  clean2(){
+    this.userFormUpdate.patchValue({
+      id: '',
+      estado: '' ,
+      correo : '',
+      cargo : ''
+      });
+  }
 
   obtenerUsuarios() {
     this.servicios.getAllUsers().subscribe(resp => {
+  /*     listaEstados: any[] = [];
+      listaPuntos: any[] = [];
+      listaCargos: any[] = []; */
+      let nombreEstado;
+      let nombrePunto;
+      let nombreCargo;
+
       this.listaUsuarios = resp;
       this.employees=[];
       // tslint:disable-next-line: forin
       // tslint:disable-next-line: prefer-for-of
       console.log('LOS USUARIOS OBTENIDOOOOS', resp);
       for (let i = 0; i < resp.length; i++) {
+        // tslint:disable-next-line: prefer-for-of
+        for (let j = 0; j < this.listaEstados.length ; j++) {
+         // console.log('ESTADOOO CUANDO SE ESTA CARGANDO EL USUARIO', this.listaEstados[j]);
+            if(this.listaEstados[j].codigodato === this.listaUsuarios[i].estado){
+              nombreEstado= this.listaEstados[j].nombre;
+            }
+        }
+        // tslint:disable-next-line: prefer-for-of
+        for (let k = 0; k < this.listaPuntos.length ; k++) {
+            console.log('ESTADOOO CUANDO SE ESTA CARGANDO EL USUARIO', this.listaPuntos[k]);
+            if (this.listaPuntos[k].id === this.listaUsuarios[i].codigopuntoasignado) {
+                nombrePunto = this.listaPuntos[k].nombre;
+              }
+          }
+          // tslint:disable-next-line: prefer-for-of
+        for (let l = 0; l < this.listaCargos.length ; l++) {
+            console.log('cargooooo', this.listaCargos[l]);
+            if (this.listaCargos[l].codigodato === this.listaUsuarios[i].cargo) {
+                nombreCargo = this.listaCargos[l].nombre;
+              }
+          }
         let user: Object = {
           id : resp[i].id,
-          punto : this.listaUsuarios[i].codigopuntoasignado,
+          /* punto : this.listaUsuarios[i].codigopuntoasignado, */
+          punto: nombrePunto,
           dpi : this.listaUsuarios[i].dpi,
+          region : this.listaUsuarios[i].region,
           primer_nombre : this.listaUsuarios[i].primernombre,
+          segundo_nombre:this.listaUsuarios[i].segundonombre,
           primer_apellido : this.listaUsuarios[i].primerapellido,
+          segundo_apellido:this.listaUsuarios[i].segundoapellido,
           email : this.listaUsuarios[i].email,
-          cargo : this.listaUsuarios[i].cargo
+          password : this.listaUsuarios[i].password,
+          cargo: nombreCargo,
+          /* cargo : this.listaUsuarios[i].cargo, */
+          /* estado: this.listaUsuarios[i].estado */
+          estado: nombreEstado
         };
         this.employees.push(user);
 

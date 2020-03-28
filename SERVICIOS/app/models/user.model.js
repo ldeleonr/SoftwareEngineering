@@ -84,8 +84,8 @@ User.getAll = result => {
 
 User.updateById = (id, user, result) => {
   sql.query(
-    "UPDATE banco_users SET dpi = ?, primernombre=?, segundonombre=?, tercernombre=?, primerapellido=?, segundoapellido=?, email=?, usuario=?, estado=?, codigopuntoasignado=?, password=? WHERE id = ?",
-    [user.dpi, user.primernombre, user.segundonombre, user.tercernombre,user.primerapellido, user.segundoapellido,user.email, user.usuario, user.estado, user.codigopuntoasignado, user.password, id],
+    "UPDATE banco_users SET dpi = ?, primernombre=?, segundonombre=?, cargo=?, primerapellido=?, segundoapellido=?, email=?, usuario=?, estado=?, codigopuntoasignado=?, password=? WHERE id = ?",
+    [user.dpi, user.primernombre, user.segundonombre, user.cargo,user.primerapellido, user.segundoapellido,user.email, user.usuario, user.estado, user.codigopuntoasignado, user.password, id],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -98,7 +98,7 @@ User.updateById = (id, user, result) => {
         result({ kind: "not_found" }, null);
         return;
       }
-
+      user.id=id;
       console.log("updated user: ", { id: id, ...user });
       result(null, { id: id, ...user });
     }
