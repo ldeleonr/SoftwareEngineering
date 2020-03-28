@@ -1,17 +1,9 @@
-p {
-  font-family: Lato;
+.app {
+  border-radius: 4px;
+  margin-top: 20px;
+  padding: 30px;
+  background: #fff;
 }
-
-.example-card {
-  max-width: 100%;
-  margin: 4px
-}
-
-.example-header-image {
-  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
-  background-size: cover;
-}
-.mat-cart-tit{
-  font: size 18;
-  font-family: Arial, Helvetica, sans-serif;
+.btn.btn-default.dropdown-toggle.is-invalid {
+  border-color: #dc3545;
 }

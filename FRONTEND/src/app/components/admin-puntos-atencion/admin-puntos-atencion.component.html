@@ -21,7 +21,7 @@
     <div class="col-sm-8">
       <h2>Creacion de Puntos de Atencion:</h2>
       <form class="form-horizontal">
-        <form [formGroup]="userForm" (ngSubmit)="onSubmit"></form><form [formGroup]="userForm" (ngSubmit)="onSubmit">
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit">
           <div class="form-group">
             <label for="email" class="control-label col-sm-12">
               Ingrese el nombre del punto de atención
@@ -69,7 +69,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-8">
+    <div class="col-sm-12">
       <h2>Información ingresada: </h2>
       <table class="table table-bordered">
         <thead>
@@ -89,14 +89,10 @@
             <td>{{employee.estado}}</td>
             <td>
               <div class="col-sm-2">
-                <a (click)="editEmployee(i)" class="btn btn-success">
-                   Modificar
-                </a>
+                <button style='width:85px; height:35px' (click)="editEmployee(i)" type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Editar</button>
               </div>
               <div class="col-sm-6">
-                <a (click)="delete(i)" class="btn btn-danger">
-                  Eliminar
-                </a>
+                <button style='width:85px; height:35px'  (click)="delete(i)"  type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap" >Eliminar</button>
               </div>
             </td>
           </tr>

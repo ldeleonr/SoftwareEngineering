@@ -14,7 +14,7 @@ exports.create = (req, res) => {
     dpi:req.body.dpi,
     primernombre:req.body.primernombre,
     segundonombre:req.body.segundonombre,
-    tercernombre:req.body.tercernombre,
+    cargo:req.body.cargo,
     primerapellido:req.body.primerapellido,
     segundoapellido:req.body.segundoapellido,
     email:req.body.email,

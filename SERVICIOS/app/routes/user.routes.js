@@ -6,4 +6,6 @@ module.exports = app => {
     app.put("/users/:id", users.update);
 
     app.post("/users/authenticate",users.findLogin);
+
+    app.get("/users",users.findAll);
 };

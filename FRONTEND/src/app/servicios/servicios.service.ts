@@ -73,8 +73,11 @@ export class Servicios {
    public updatePuntosAtencion(id:any,puntoAtencion: Object):Observable<any>{
     return this.http.put(`${this.urlPuntosAtencion}/${id}`, puntoAtencion);
   }
-
-
-
+  public getAllUsers():Observable<any> {
+    return this.http.get(`${this.urlUsers}`);
+  }
+  public addUser(user: Object) : Observable <any> {
+    return this.http.post<any>(`${this.urlUsers}`, user);
+   }
 
 }

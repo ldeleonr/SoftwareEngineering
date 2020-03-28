@@ -1,49 +1,449 @@
 
-<div class="container-fluid">
-
+<div class="container app">
   <div class="row">
-    <div class="col-sm-12">
-      <mat-card class="example-card">
-          <div class="row">
-            <div class="col-sm-5">
-              <table class="egt">
-                <tr>
-                  <td> Usuario: {{username.value}}</td>
-                </tr>
-                <tr>
-                  <td> Region: {{region.value}} </td>
-                </tr>
-                <tr>
-                  <td> Punto de Atencion: {{puntoAtencion.value}}</td>
-                </tr>
-              </table>
-              <br>
-            </div>
-          </div>
-          <div class="col-sm-4"></div>
-          <div class="col-sm-3" align ="right">
-          </div>
-        <mat-card-header>
-          <div class="col-sm-3"></div>
-          <div class="col-sm-6" align ="center">
-          <mat-card-title class="mat-cart-tit"><h1>{{ name.value }}</h1></mat-card-title>
-          <mat-card-subtitle>Gestion de Usuario por puntos de atencion</mat-card-subtitle>
-          </div>
-          <div class="col-sm-2"></div>
-        </mat-card-header>
-        <div class="row">
-          <div class="col-sm-1"></div>
-          <div class="col-sm-5">
-            <h4>Basic mat-select</h4>
-
-          </div>
-        </div>
-      </mat-card>
+    <div class="col-sm-8">
+      <h1 class="text-center">
+        Sistema de Quejas
+      </h1>
+    </div>
+    <div class="col-sm-4">
+      <div class="alert alert-success alert-dismissable" *ngIf="msg">
+        <a href="#" class="close" (click)="closeAlert()">
+          &times;
+        </a>
+        {{msg}}
+      </div>
     </div>
   </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <img width="300" src="https://lh3.googleusercontent.com/qUeDVvNB_lINqCXBpaU-YNrjig-1pHfTnmOM-_REnMtomDaHpvBabYddLPr3X5xnww" />
+    </div>
+    <div class="col-sm-8">
+      <h2>Creacion de Usuarios de puntos de Atencion:</h2>
 
+      <form class="form-horizontal">
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit">
+
+          <!-- REGION -->
+          <div class="form-group">
+            <label for="region" class="control-label col-sm-12">
+              Region
+            </label>
+            <div class="col-sm-10">
+              <select class="form-control" formControlName="region">
+                <option selected value="">--Seleccione una región--</option>
+                <option *ngFor="let regiones of listaRegiones" [value]="regiones.codigodato">
+                  {{regiones.nombre}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <!-- PUNTO DE ATENCIÓN -->
+          <div class="form-group">
+            <label for="punto" class="control-label col-sm-5">
+              Punto de Atención
+            </label>
+            <div class="col-sm-10">
+              <select class="form-control" formControlName="punto">
+                <option selected value="">--Seleccione un Punto de Atención--</option>
+                <option *ngFor="let punto of listaPuntos" [value]="punto.id">
+                  {{punto.nombre}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <!-- DPI -->
+          <div class="form-group">
+            <label for="dpi" class="control-label col-sm-2">
+              DPI
+            </label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="dpi"
+                name="dpi"  formControlName="dpi"
+                placeholder="Ingrese su código único de identificación"
+              >
+            </div>
+          </div>
+          <!-- PRIMER NOMBRE -->
+          <div class="form-group">
+            <label for="primerNombre" class="control-label col-sm-5">
+              Primer Nombre
+            </label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="primerNombre"
+                name="primerNombre"  formControlName="primerNombre"
+                placeholder="Ingrese su primer nombre">
+            </div>
+          </div>
+           <!-- SEGUNDO NOMBRE -->
+           <div class="form-group">
+            <label for="segundoNombre" class="control-label col-sm-5">
+              Segundo Nombre
+            </label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="segundoNombre"
+                name="segundoNombre"  formControlName="segundoNombre"
+                placeholder="Ingrese su segundo nombre"
+              >
+            </div>
+          </div>
+          <!-- PRIMER APELLIDO -->
+          <div class="form-group">
+            <label for="primerApellido" class="control-label col-sm-5">
+              Primer Apellido
+            </label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="primerApellido"
+                name="primerApellido"  formControlName="primerApellido"
+                placeholder="Ingrese su primer apellido">
+            </div>
+          </div>
+           <!-- SEGUNDO APELLIDO -->
+           <div class="form-group">
+            <label for="segundoApellido" class="control-label col-sm-5">
+              Segundo Nombre
+            </label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="segundoApellido"
+                name="segundoApellido"  formControlName="segundoApellido"
+                placeholder="Ingrese su segundo nombre"
+              >
+            </div>
+          </div>
+          <!-- EMAIL -->
+          <div class="form-group">
+            <label for="email" class="control-label col-sm-5">
+              Email
+            </label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="email"
+                name="email"  formControlName="email"
+                placeholder="Ingrese su email"
+              >
+            </div>
+          </div>
+          <!-- CARGO -->
+          <div class="form-group">
+            <label for="cargo" class="control-label col-sm-2">
+              Cargo
+            </label>
+            <div class="col-sm-10">
+              <select class="form-control" formControlName="cargo">
+                <option selected value="">--Seleccione un cargo--</option>
+                <option *ngFor="let cargo of listaCargos" [value]="cargo.codigodato">
+                  {{cargo.nombre}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-10 col-sm-offset-2">
+              <button type="submit" [disabled]="userForm.invalid" class="btn btn-success" (click)="saveUser()">
+                Guardar
+              </button>
+            </div>
+          </div>
+
+        </form>
+      </form>
+    <!--    <div class="form-group">
+          <label for="region" class="control-label col-sm-2">
+            Region
+          </label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="region"
+              name="region" [(ngModel)]="model.region"
+              placeholder="Ingrese un nombre para Región"
+            >
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label for="estado" class="control-label col-sm-2">
+            Estado
+          </label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="estado"
+              name="estado" [(ngModel)]="model.estado"
+              placeholder="Defina un estado"
+            >
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label for="dpi" class="control-label col-sm-2">
+            DPI
+          </label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="dpi"
+              name="dpi" [(ngModel)]="model.dpi"
+              placeholder="Ingrese su código único de identificación"
+            >
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label for="primer_nombre" class="control-label col-sm-2">
+            Primer Nombre
+          </label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="primer_nombre"
+              name="primer_nombre" [(ngModel)]="model.primer_nombre"
+              placeholder="Ingrese su primer nombre"
+            >
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label for="segundo_nombre" class="control-label col-sm-2">
+            Segundo Nombre
+          </label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id=" segundo_nombre"
+              name="segundo_nombre" [(ngModel)]="model.segundo_nombre"
+              placeholder="Ingrese su segundo nombre"
+            >
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label for="primer_apellido" class="control-label col-sm-2">
+            Primer Apellido
+          </label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id=" primer_apellido"
+              name="primer_apellido" [(ngModel)]="model.primer_apellido"
+              placeholder="Ingrese su nombre primer apellido"
+            >
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label for="segundo_apellido" class="control-label col-sm-2">
+            Segundo Apellido
+          </label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id=" segundo_apellido"
+              name="primer_apellido" [(ngModel)]="model.segundo_apellido"
+              placeholder="Ingrese su nombre segundo apellido"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email" class="control-label col-sm-2">
+            Correo del Usuario
+          </label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="email"
+              name="email" [(ngModel)]="model.email"
+              placeholder="Ingrese su nombre segundo apellido"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="cargo" class="control-label col-sm-2">
+            Cargo del Usuario
+          </label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="cargo"
+              name="cargo" [(ngModel)]="model.cargo"
+              placeholder="Ingrese el cargo del usuario"
+            >
+          </div>
+        </div>
+
+
+
+        <div class="form-group">
+          <div class="col-sm-10 col-sm-offset-2">
+            <button type="submit" class="btn btn-success" (click)="addEmployee()">
+              Guardar
+            </button>
+          </div>
+        </div>
+      </form> -->
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2">
+      <h2>Datos de Usuarios: </h2>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Punto de Atención</th>
+            <th>DPI</th>
+            <th>Primer Nombre</th>
+            <th>Primer Apellido</th>
+            <th>Correo del Usuario</th>
+            <th>Cargo del Usuario</th>
+            <th>Opciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let employee of employees; let i = index">
+            <td>{{employee.id}}</td>
+            <td>{{employee.punto}}</td>
+            <td>{{employee.dpi}}</td>
+            <td>{{employee.primer_nombre}}</td>
+            <td>{{employee.primer_apellido}}</td>
+            <td>{{employee.email}}</td>
+            <td>{{employee.cargo}}</td>
+            <td>
+             <!--  <a (click)="editEmployee(i)" class="btn btn-success">
+                Actualizar
+              </a> -->
+              <div class="col-sm-12">
+              <div class="row">
+
+                <div class="col-sm-1">
+                  <button style='width:85px; height:35px' (click)="editEmployee(i)" type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Editar</button>
+                 <br>
+                  <button style='width:85px; height:35px' (click)="deleteEmployee(i)"  type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap" >Eliminar</button>
+
+                </div>
+
+
+              </div>
+            </div>
+                    <!--  <a (click)="deleteEmployee(i)" class="btn btn-danger">
+                Eliminar
+              </a>
+            --> </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-sm-4" [hidden]="hideUpdate">
+     <!--  <form class="form-horizontal">
+
+
+
+      <div class="form-group">
+        <label for="punto" class="control-label col-sm-2">
+          Estado
+        </label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="punto"
+            name="punto" [(ngModel)]="model2.punto"
+            placeholder="Defina un estado"
+          >
+        </div>
+      </div>
+
+
+        <div class="form-group">
+          <label for="email" class="control-label col-sm-2">
+            Correo
+          </label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="email"
+              name="email" [(ngModel)]="model2.email"
+              placeholder="Ingrese su nombre segundo apellido"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="cargo" class="control-label col-sm-2">
+            Cargo
+          </label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="cargo"
+              name="cargo" [(ngModel)]="model2.cargo"
+              placeholder="Ingrese el cargo del usuario"
+            >
+          </div>
+        </div>
+
+
+
+        <div class="form-group">
+          <div class="col-sm-10 col-sm-offset-2">
+            <button type="submit" class="btn btn-success" (click)="updateEmployee()">
+              Guardar
+            </button>
+          </div>
+        </div>
+      </form> -->
+    </div>
+  </div>
+  <div class="row">
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h2 >Modificar Usuario</h2>
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="punto" class="control-label col-sm-12">
+                  Estado
+                </label>
+                <div class="col-sm-12">
+                  <input type="text" class="form-control" id="punto"
+                    name="punto" [(ngModel)]="model2.punto"
+                    placeholder="Defina un estado"
+                  >
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="punto" class="control-label col-sm-12">
+                  Estado
+                </label>
+                <div class="col-sm-12">
+                  <input type="text" class="form-control" id="punto"
+                    name="punto" [(ngModel)]="model2.punto"
+                    placeholder="Defina un estado"
+                  >
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="email" class="control-label col-sm-2">
+                  Correo
+                </label>
+                <div class="col-sm-12">
+                  <input type="text" class="form-control" id="email"
+                    name="email" [(ngModel)]="model2.email"
+                    placeholder="Ingrese su nombre segundo apellido"
+                  >
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="cargo" class="control-label col-sm-2">
+                  Cargo
+                </label>
+                <div class="col-sm-12">
+                  <input type="text" class="form-control" id="cargo"
+                    name="cargo" [(ngModel)]="model2.cargo"
+                    placeholder="Ingrese el cargo del usuario"
+                  >
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button"  class="btn btn-primary" (click)="updateEmployee()">Guardar</button>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-
-
-
-
