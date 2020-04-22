@@ -87,6 +87,8 @@ export class AdminPuntosAtencionComponent implements OnInit {
     });
   }
 
+  // tslint:disable-next-line: member-ordering
+  pageActual: number = 1;
   update() {
 
     // tslint:disable-next-line: prefer-for-of

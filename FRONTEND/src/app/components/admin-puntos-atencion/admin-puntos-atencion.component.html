@@ -21,7 +21,7 @@
     <div class="col-sm-8">
       <h2>Creacion de Puntos de Atencion:</h2>
       <form class="form-horizontal">
-        <form [formGroup]="userForm" (ngSubmit)="onSubmit">
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit"></form><form [formGroup]="userForm" (ngSubmit)="onSubmit">
           <div class="form-group">
             <label for="email" class="control-label col-sm-12">
               Ingrese el nombre del punto de atención
@@ -71,8 +71,8 @@
   <div class="row">
     <div class="table-responsive">
       <h2>Información ingresada: </h2>
-      <table class="table table-bordered">
-        <thead>
+      <table class="table">
+        <thead class="thead-light">
           <tr>
             <th>id</th>
             <th>Región</th>
@@ -82,23 +82,32 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let employee of employees; let i = index">
+          <tr *ngFor="let employee of employees | paginate: {itemsPerPage: 5, currentPage: pageActual}; let i = index">
             <td>{{employee.id}}</td>
             <td>{{employee.region}}</td>
             <td>{{employee.nombre}}</td>
             <td>{{employee.estado}}</td>
             <td>
-              <div class="col-sm-2">
-                <button style='width:85px; height:35px' (click)="editEmployee(i)" type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Editar</button>
+              <!-- <div class="col-sm-2">
+                <a (click)="editEmployee(i)" class="btn btn-success">
+                   Modificar
+                </a>
               </div>
               <div class="col-sm-6">
-                <button style='width:85px; height:35px'  (click)="delete(i)"  type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap" >Eliminar</button>
-              </div>
+                <a (click)="delete(i)" class="btn btn-danger">
+                  Eliminar
+                </a>
+              </div> -->
+              <button style='width:85px; height:35px' (click)="editEmployee(i)" type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Editar</button>
+              <br>
+               <button style='width:85px; height:35px' (click)="delete(i)"  type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap" >Eliminar</button>
+
             </td>
           </tr>
 
         </tbody>
       </table>
+      <pagination-controls (pageChange)="pageActual= $event"></pagination-controls>
     </div>
     <div class="col-sm-4" [hidden]="hideUpdate">
       <h2>Actualizar Data:</h2>
@@ -152,6 +161,9 @@
       <!--   <div class="form-group">
           <label for="name" class="control-label col-sm-2">
             Region
+
+            | paginate: {itemsPerPage: 5, currentPage: pageActual}
+
           </label>
           <div class="col-sm-10">
             <input type="text" class="form-control" id="name"

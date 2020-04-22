@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 /* Angular material */
 import { AngularMaterialModule } from './angular-material.module';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import {NgxPaginationModule} from 'ngx-pagination';
 // componentes
 import { LogInComponent } from './components/log-in/log-in.component';
 import { AdminUserPaComponent } from './components/admin-user-pa/admin-user-pa.component';
@@ -60,6 +61,7 @@ import { AdminPuntosAtencionComponent } from './components/admin-puntos-atencion
   ],
   imports: [
     BrowserModule,
+    NgxPaginationModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     AngularMaterialModule,

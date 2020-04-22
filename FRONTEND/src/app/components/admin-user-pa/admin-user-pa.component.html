@@ -276,8 +276,8 @@
   <div class="row">
     <div class="table-responsive">
       <h2>Datos de Usuarios: </h2>
-      <table class="table table-bordered">
-        <thead>
+      <table class="table">
+        <thead class="thead-light">
           <tr>
             <th>Id</th>
             <th>Punto de Atención</th>
@@ -291,7 +291,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let employee of employees; let i = index">
+          <tr  *ngFor="let employee of employees | paginate: {itemsPerPage: 5, currentPage: pageActual}; let i = index">
             <td>{{employee.id}}</td>
             <td>{{employee.punto}}</td>
             <td>{{employee.dpi}}</td>
@@ -310,7 +310,7 @@
                 <div class="col-sm-1">
                   <button style='width:85px; height:35px' (click)="editEmployee(i)" type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Editar</button>
                  <br>
-                  <button style='width:85px; height:35px' (click)="deleteEmployee(i)"  type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap" >Eliminar</button>
+                  <button style='width:85px; height:35px' (click)="deleteEmployee(i)"  type="button" class="btn btn-danger" >Eliminar</button>
 
                 </div>
 
@@ -325,6 +325,7 @@
 
         </tbody>
       </table>
+      <pagination-controls (pageChange)="pageActual= $event"></pagination-controls>
     </div>
 
     <div class="col-sm-4" [hidden]="hideUpdate">

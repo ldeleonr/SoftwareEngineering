@@ -40,7 +40,7 @@ export class AdminUserPaComponent implements OnInit {
       cargo : ['']
     });
    }
-
+   pageActual: number = 1;
     msg = '';
     employees = [];
     model: any = {};
@@ -109,6 +109,7 @@ export class AdminUserPaComponent implements OnInit {
   }
 
   deleteEmployee(i):void {
+    console.log('eliminar', this.employees[i]);
     var answer = confirm('¿Estas seguro querer eliminar los Datos del Usuario?');
     if(answer) {
       this.employees.splice(i, 1);
@@ -120,6 +121,7 @@ export class AdminUserPaComponent implements OnInit {
 
   editEmployee(i):void {
     console.log('esto es employee', this.employees[i]);
+
     this.userFormUpdate.patchValue({
       id: this.employees[i].id,
       correo: this.employees[i].email,
@@ -141,12 +143,13 @@ export class AdminUserPaComponent implements OnInit {
   }
 
   updateEmployee():void {
-    console.log('ESTO LLEGA EN UPDATE ', this.userFormUpdate);
+    console.log('ESTO LLEGA EN LISTA para modificar ', this.listaPuntos);
+    console.log('ESTO LLEGA EN MODEL para modificar ',  this.employees[this.userFormUpdate.value.id-1]);
     console.log(this.employees[this.userFormUpdate.value.id]);
     let codigopunto: 0;
     for (let k = 0; k < this.listaPuntos.length ; k++) {
-     // console.log('ESTADOOO CUANDO SE ESTA CARGANDO EL USUARIO', this.listaPuntos[k]);
-      if (this.listaPuntos[k].nombre === this.employees[this.userFormUpdate.value.id].punto) {
+    // console.log('EL CLAVO', this.employees[this.userFormUpdate.value].id);
+      if (this.listaPuntos[k].id === this.employees[this.userFormUpdate.value.id-1].punto) {
          // console.log();
           codigopunto = this.listaPuntos[k].id;
         }
@@ -154,19 +157,19 @@ export class AdminUserPaComponent implements OnInit {
 
    // console.log('CODIGOOOOOO PUNTOOOO', codigopunto);
     const user = {
-      dpi: this.employees[this.userFormUpdate.value.id].dpi,
-      primernombre:this.employees[this.userFormUpdate.value.id].primer_nombre,
-      segundonombre:this.employees[this.userFormUpdate.value.id].segundo_nombre,
+      dpi: this.employees[this.userFormUpdate.value.id-1].dpi,
+      primernombre:this.employees[this.userFormUpdate.value.id-1].primer_nombre,
+      segundonombre:this.employees[this.userFormUpdate.value.id-1].segundo_nombre,
       cargo: parseInt(this.userFormUpdate.value.cargo, 10) ,
-      primerapellido: this.employees[this.userFormUpdate.value.id].primer_apellido,
-      segundoapellido: this.employees[this.userFormUpdate.value.id].segundo_apellido,
+      primerapellido: this.employees[this.userFormUpdate.value.id-1].primer_apellido,
+      segundoapellido: this.employees[this.userFormUpdate.value.id-1].segundo_apellido,
       email: this.userFormUpdate.value.correo,
       usuario: this.userFormUpdate.value.correo,
       estado: parseInt(this.userFormUpdate.value.estado, 10) ,
-      password:this.employees[this.userFormUpdate.value.id].password,
+      password:this.employees[this.userFormUpdate.value.id-1].password,
       codigopuntoasignado: codigopunto
     };
-
+    console.log('ESTO SE VA AL UPDATE',user);
     this.servicios.updateUser(this.userFormUpdate.value.id, user).subscribe(res=>{
       console.log('RESPUESTA DE UPDATE', res);
       this.msg = 'Se actualizaron correctamente los Datos del Usuario de Punto de Atención';
@@ -242,7 +245,7 @@ export class AdminUserPaComponent implements OnInit {
       this.employees=[];
       // tslint:disable-next-line: forin
       // tslint:disable-next-line: prefer-for-of
-      console.log('LOS USUARIOS OBTENIDOOOOS', resp);
+      //console.log('LOS USUARIOS OBTENIDOOOOS', resp);
       for (let i = 0; i < resp.length; i++) {
         // tslint:disable-next-line: prefer-for-of
         for (let j = 0; j < this.listaEstados.length ; j++) {
@@ -253,24 +256,24 @@ export class AdminUserPaComponent implements OnInit {
         }
         // tslint:disable-next-line: prefer-for-of
         for (let k = 0; k < this.listaPuntos.length ; k++) {
-            console.log('ESTADOOO CUANDO SE ESTA CARGANDO EL USUARIO', this.listaPuntos[k]);
+           // console.log('ESTADOOO CUANDO SE ESTA CARGANDO EL USUARIO', this.listaPuntos[k]);
             if (this.listaPuntos[k].id === this.listaUsuarios[i].codigopuntoasignado) {
                 nombrePunto = this.listaPuntos[k].nombre;
               }
           }
           // tslint:disable-next-line: prefer-for-of
         for (let l = 0; l < this.listaCargos.length ; l++) {
-            console.log('cargooooo', this.listaCargos[l]);
+           // console.log('cargooooo', this.listaCargos[l]);
             if (this.listaCargos[l].codigodato === this.listaUsuarios[i].cargo) {
                 nombreCargo = this.listaCargos[l].nombre;
               }
           }
         let user: Object = {
           id : resp[i].id,
-          /* punto : this.listaUsuarios[i].codigopuntoasignado, */
-          punto: nombrePunto,
+           punto : this.listaUsuarios[i].codigopuntoasignado,
+          //: nombrePunto,
           dpi : this.listaUsuarios[i].dpi,
-          region : this.listaUsuarios[i].region,
+          region :  this.listaUsuarios[i].region ,
           primer_nombre : this.listaUsuarios[i].primernombre,
           segundo_nombre:this.listaUsuarios[i].segundonombre,
           primer_apellido : this.listaUsuarios[i].primerapellido,
@@ -286,7 +289,7 @@ export class AdminUserPaComponent implements OnInit {
 
       }
      // this.employees.push(this.users);
-      console.log('LO QUE SE GUARDA ES',this.listaTempUsers);
+    //  console.log('LO QUE SE GUARDA ES',this.listaTempUsers);
 
     });
   }
@@ -300,7 +303,7 @@ export class AdminUserPaComponent implements OnInit {
           listatemp.push(value);
         }
       });
-      console.log(listatemp);
+      //console.log(listatemp);
       this.listaPuntos = resp;
       // this.employees = resp;
     });
