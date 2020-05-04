@@ -1,0 +1,67 @@
+<div class="jumbotron">
+  <div class="d-flex bd-highlight">
+    <div class="img_cont">
+      <img src="https://seeklogo.com/images/U/universidad-mariano-galvez-de-guatemala-logo-0B59E1DE71-seeklogo.com.png" class="rounded-circle user_img">
+      <span class="online_icon"></span>
+    </div>
+    <div class="user_info">
+      <span>Universidad Mariano Galvez de Guatemala</span>
+      <p>Sede San Juan Sacátepequez</p>
+    </div>
+    <div class="video_cam">
+      <span><i class="fas fa-video"></i></span>
+      <span><i class="fas fa-phone"></i></span>
+    </div>
+  </div>
+  <hr class="my-4">
+
+
+  <ng-container *ngFor='let message of messages | async'>
+    <div class="message"[ngSwitch]="message.sendBy" [ngClass]="{'from' : message.sendBy==='bot',
+    'to' : message.sendBy==='user'}">
+       <!--MENSAJES IZQUIERDOS-->
+      <div *ngSwitchCase="'bot'" class="d-flex justify-content-start mb-4">
+        <div class="img_cont_msg">
+          <img src="https://seeklogo.com/images/U/universidad-mariano-galvez-de-guatemala-logo-0B59E1DE71-seeklogo.com.png"
+            class="rounded-circle user_img_msg">
+        </div>
+        <div class="msg_cotainer">
+          {{message.content}}
+          <br>
+          <span class="msg_time">8:40 AM, Today</span>
+        </div>
+      </div>
+      <!--MENSAJES DERECHOS-->
+      <div *ngSwitchCase="'user'" class="d-flex justify-content-end mb-4">
+          <div class="msg_cotainer_send">
+            {{message.content}}
+            <br>
+            <span class="msg_time_send">8:40 AM, Today</span>
+          </div>
+
+        <div class="img_cont_msg">
+          <img
+            src="https://lh3.googleusercontent.com/proxy/SVljdDGBB_EObuflQRG3X_6eraecxDU3MLqzc8gDp7EUrRnL4B90Y6tkHmzbATP1LdbRw0cTHbe6l3Cb9ymYe_tt_fb1RftX4UVbXAg7tsdAN4b1wIxM5g"
+            class="rounded-circle user_img_msg">
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+
+
+
+
+
+  <div class="input-group mb-3">
+    <input type="text"  [(ngModel)]="formValue" (keyup.enter)="sendMessage()" class="form-control" placeholder="Escriba su mensaje..." aria-label="Escriba su mensaje..." aria-describedby="basic-addon2">
+    <div class="input-group-append" (click)="sendMessage()">
+      <span class="input-group-text" id="basic-addon2">Enviar</span>
+    </div>
+  </div>
+
+
+</div>
+
+
+
