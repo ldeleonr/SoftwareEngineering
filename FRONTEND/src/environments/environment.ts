@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseURL: 'http://192.168.1.105:3000'
+  baseURL: 'http://ec2-34-205-68-159.compute-1.amazonaws.com:3000'
 };
 
 /*

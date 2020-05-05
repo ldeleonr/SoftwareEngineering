@@ -51,13 +51,29 @@ import {
   MatPaginatorIntl
 } from '@angular/material';
 import { AdminPuntosAtencionComponent } from './components/admin-puntos-atencion/admin-puntos-atencion.component';
+import { TiposQuejasComponent } from './components/tipos-quejas/tipos-quejas.component';
+import { IngresoQuejaUsuarioComponent } from './components/ingreso-queja-usuario/ingreso-queja-usuario.component';
+import { IngresoQuejaContribuyenteComponent } from './components/ingreso-queja-contribuyente/ingreso-queja-contribuyente.component';
+import { AsignQuejaMalServicioComponent } from './components/asign-queja-mal-servicio/asign-queja-mal-servicio.component';
+import { SeguimientoCentralizadorComponent } from './components/seguimiento-centralizador/seguimiento-centralizador.component';
+import { SeguimientoPuntosAtencionComponent } from './components/seguimiento-puntos-atencion/seguimiento-puntos-atencion.component';
+import { AutoConsultaContribuyenteComponent } from './components/auto-consulta-contribuyente/auto-consulta-contribuyente.component';
+import { ReporteUnidadAdministrativaComponent } from './components/reporte-unidad-administrativa/reporte-unidad-administrativa.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LogInComponent,
     AdminUserPaComponent,
-    AdminPuntosAtencionComponent
+    AdminPuntosAtencionComponent,
+    TiposQuejasComponent,
+    IngresoQuejaUsuarioComponent,
+    IngresoQuejaContribuyenteComponent,
+    AsignQuejaMalServicioComponent,
+    SeguimientoCentralizadorComponent,
+    SeguimientoPuntosAtencionComponent,
+    AutoConsultaContribuyenteComponent,
+    ReporteUnidadAdministrativaComponent
   ],
   imports: [
     BrowserModule,
