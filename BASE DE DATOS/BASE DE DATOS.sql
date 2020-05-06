@@ -70,6 +70,9 @@ insert into catalogopadre values (1,"Estados","A");
 insert into catalogopadre values (2,"Rol","A");
 insert into catalogopadre values (3,"Region","A");
 insert into catalogopadre values (4,"Departamento","A");
+insert into catalogopadre values (5,"Cargo","A");
+insert into catalogopadre values (6,"Medios de Ingreso","A");
+
 
 /*1. ASIGNAR ROLES*/
 
@@ -115,17 +118,30 @@ insert into catalogobydatopadre values (31,4,null,"ZACAPA","A")
 insert into catalogobydatopadre values (1,1,null,"ACTIVO","A")
 insert into catalogobydatopadre values (2,1,null,"INACTIVO","A")
 
+insert into catalogobydatopadre values (39,6,null,"TELEFONO","A");
+insert into catalogobydatopadre values (40,6,null,"CORREO","A");
+insert into catalogobydatopadre values (41,6,null,"CHAT","A");
+insert into catalogobydatopadre values (42,6,null,"PRESENCIAL","A");
+insert into catalogobydatopadre values (43,6,null,"APLICACION MOVIL","A");
+
 /*6. CATALOGO PUNTOS DE ATENCION (ESTE LLEVARA UN DEPTO EL CUAL VINCULA A REGION)*/
 insert into puntosatencion values (1,"Central de Bancos",1,18,6)
 insert into puntosatencion values (2,"Banco metropolitano",1,18,6)
 
+
+
 /*-----------------------------------------------------------*/
 
 
+CREATE TABLE tipo_quejas(
+  id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  siglas VARCHAR (10),
+  anio VARCHAR (5),
+  descripcion varchar(500)
+)
 
-
-
-
+insert into tipo_quejas values(0,'QMS','2020','QUEJA DE PRUEBA2')
+SELECT * FROM tipo_quejas
 
 CREATE TABLE banco_quejas(
 	id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -133,8 +149,14 @@ CREATE TABLE banco_quejas(
 	medioingreso INT(3),
 	detallequeja VARCHAR(500),
 	estado INT(3),
-	fechaingreso DATE	)
-
+	fechaingreso DATE,
+	fechamodifico DATE,
+	usuarioingreso varchar (50),
+	usuariomodifico varchar (50),
+	usuarioasignado INT(3),
+	fechaatencion DATE
+)
+	insert into banco_quejas values (0,1,2,'QUEJA POR X RAZON',1,null,null,'ldeleonr9',null, 1,null);
 
 	
 	
