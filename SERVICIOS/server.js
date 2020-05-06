@@ -23,6 +23,8 @@ require("./app/routes/catalogobydato.routes.js")(app);
 require("./app/routes/puntoatencion.routes.js")(app);
 require("./app/routes/user.routes.js")(app);
 require("./app/routes/roles.routes.js")(app);
+require("./app/routes/tipoquejas.routes.js")(app);
+require("./app/routes/bancoquejas.routes.js")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 3000;
