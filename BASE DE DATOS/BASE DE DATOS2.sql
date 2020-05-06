@@ -56,11 +56,12 @@ ALTER TABLE banco_roles
 ADD FOREIGN KEY (iduser) REFERENCES banco_users(id);
 
 
+
 CREATE TABLE banco_quejas(
 	id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	codigotipoqueja INT(3),
 	medioingreso INT(3),
 	detallequeja VARCHAR(500),
 	estado INT(3),
-	fechaingreso DATE	)
+	fechaingreso DATE)
 
