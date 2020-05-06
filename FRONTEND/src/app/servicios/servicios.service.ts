@@ -17,6 +17,7 @@ export class Servicios {
    urlRoles = this.baseUrl + '/roles';
    urlCatByDatoPadre = this.baseUrl + '/catalogobydato';
    urlPuntosAtencion = this.baseUrl + '/puntoatencion';
+   urlTipoQuejas = this.baseUrl + '/tipoquejas';
 
    constructor(private http: HttpClient) { }
 
@@ -82,5 +83,11 @@ export class Servicios {
    public updateUser(id:any, users: Object):Observable<any>{
     return this.http.put(`${this.urlUsers}/${id}`, users);
   }
+  public getAllTipoQuejas():Observable<any> {
+    return this.http.get(`${this.urlTipoQuejas}`);
+  }
+  public addTipoQueja(tipoQueja: Object) : Observable <any> {
+    return this.http.post<any>(`${this.urlTipoQuejas}/save`, tipoQueja);
+   }
 
 }
