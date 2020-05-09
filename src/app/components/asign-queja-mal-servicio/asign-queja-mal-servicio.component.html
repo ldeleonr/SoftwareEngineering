@@ -1,0 +1,194 @@
+
+<div class="container app">
+    <div class="row">
+      <div class="col-sm-8">
+      </div>
+      <div class="col-sm-4">
+        <div class="alert alert-success alert-dismissable" *ngIf="msg">
+          <a href="#" class="close" (click)="closeAlert()">
+            &times;
+          </a>
+          {{msg}}
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="alert alert-danger alert-dismissable" *ngIf="err">
+          <a href="#" class="close" (click)="closeAlert()">
+            &times;
+          </a>
+          {{err}}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4">
+        <img width="300" src="https://image.flaticon.com/icons/svg/1997/1997323.svg" />
+      </div>
+      <div class="col-sm-8">
+        <form class="form-horizontal">
+          <h2 *ngIf="nameAPP" >{{nameAPP}}</h2>
+          <form [formGroup]="principalForm">
+            <!-- SIGLAS -->
+            <div class="form-group">
+              <label> SIGLAS </label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control"  formControlName="siglas"
+                  placeholder="Ingrese su código único de identificación">
+              </div>
+            </div>
+  
+            <!-- DESCRIPCION -->
+            <div class="form-group">
+              <label> DESCRIPCION  </label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control"  formControlName="descripcion"
+                  placeholder="Ingrese la descripcion de la queja">
+              </div>
+            </div>
+  
+              <!-- Estado -->
+              <div  class="form-group">
+                <label for="region" class="control-label col-sm-12">
+                  Estado
+                </label>
+                <div class="col-sm-10">
+                  <select class="form-control" formControlName="estado">
+                    <option selected value="">--Seleccione un Estado--</option>
+                    <option *ngFor="let estado of listaEstados" [value]="estado.codigodato">
+                      {{estado.nombre}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+  
+            <div class="form-group">
+              <div class="col-sm-10 col-sm-offset-2">
+                <button type="submit" class="btn btn-success" (click)="saveQueja()">
+                  Guardar
+                </button>
+              </div>
+            </div>
+          </form>
+  
+        </form>
+  
+      </div>
+    </div>
+  
+    <div class="row">
+      <div class="table-responsive">
+        <h2>Tipos de quejas: </h2>
+        <table class="table">
+          <thead class="thead-light">
+            <tr>
+              <th>Id</th>
+              <th>Descripcion</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr  *ngFor="let element of tableModel | paginate: {itemsPerPage: 5, currentPage: pageActual}; let i = index">
+              <td>{{element.siglas}}-{{element.id}}-{{element.anio}}</td>
+              <td>{{element.descripcion}}</td>
+              <td>{{element.descEstado}}</td>
+              <td>
+                <div class="col-sm-12">
+                <div class="row">
+                  <div class="col-sm-1">
+                    <button style='width:99px; height:45px' (click)="editTipoQueja(element.id)" type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Modificar</button>
+                   <br>
+                    <!-- <button style='width:85px; height:35px' (click)=" deleteTipoQueja(i)"  type="button" class="btn btn-danger" >Eliminar</button> -->
+                  </div>
+                </div>
+              </div>
+            </td>
+            </tr>
+          </tbody>
+        </table>
+        <pagination-controls (pageChange)="pageActual= $event"></pagination-controls>
+      </div>
+      <div class="col-sm-4" [hidden]="hideUpdate">
+      </div>
+    </div>
+    <div class="row">
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <h2 >Modificar Usuario</h2>
+              <div class="col-sm-12">
+  
+        <form class="form-horizontal">
+          <form [formGroup]="updateForm" (ngSubmit)="onSubmit">
+            <!-- iID -->
+            <div class="form-group">
+              <label for="id" class="control-label col-sm-12">
+                ID
+              </label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" formControlName="id"
+                placeholder=""  readonly>
+              </div>
+            </div>
+  
+            <!-- QUEJA -->
+            <div class="form-group">
+              <label for="id" class="control-label col-sm-12">
+                QUEJA
+              </label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" formControlName="queja"
+                placeholder="" readonly>
+              </div>
+            </div>
+  
+            <!-- ESTADO -->
+            <div class="form-group">
+              <label for="region" class="control-label col-sm-12">
+                ESTADO
+              </label>
+              <div class="col-sm-10">
+                <select class="form-control" formControlName="estado" >
+                  <option selected value=''>--Seleccione un estado--</option>
+                  <option *ngFor="let estado of listaEstados" [value]="estado.codigodato">
+                    {{estado.nombre}}
+                  </option>
+                </select>
+              </div>
+            </div>
+  
+            <!-- DESCRIPCION -->
+            <div class="form-group">
+              <label for="descripcion" class="control-label col-sm-12">
+                DESCRIPCION
+              </label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" formControlName="descripcion"
+                  placeholder=""
+                >
+              </div>
+            </div>
+  
+            <div class="form-group">
+  
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="clean()" data-dismiss="modal">Cancelar</button>
+                <button type="button"  class="btn btn-primary" (click)="updateTipoQueja()" data-dismiss="modal">Guardar</button>
+              </div>
+            </div>
+  
+          </form>
+        </form>
+              </div>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
