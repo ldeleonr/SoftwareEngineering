@@ -41,6 +41,7 @@ export class TiposQuejasComponent implements OnInit {
    }
    pageActual: number = 1;
     msg = '';
+    err = '';
     hideUpdate = true;
 
 
@@ -63,10 +64,24 @@ export class TiposQuejasComponent implements OnInit {
     this.principalModel.descripcion = this.principalForm.value.descripcion;
     this.principalModel.estado = this.principalForm.value.estado;
     this.principalModel.anio = anio;
-    this.servicios.addTipoQueja(this.principalModel).subscribe(res=>{
-      console.log('RESPUESTA GUARDAR POST',res);
-      this.obtenerTiposQuejas();
-    });
+    console.log(this.listaTiposQuejas);
+    let siglasRepetidas='false';
+    for(let i=0; i<this.listaTiposQuejas.length;i++){
+      if(this.listaTiposQuejas[i].siglas === this.principalModel.siglas){
+        console.log('EXISTEN SIGLAS IGUALES');
+        siglasRepetidas='true';
+      }
+    }
+    if(siglasRepetidas==='false'){
+      this.servicios.addTipoQueja(this.principalModel).subscribe(res=>{
+        console.log('RESPUESTA GUARDAR POST',res);
+        this.obtenerTiposQuejas();
+      });
+    }
+    else{
+      this.err='No puede Ingresar Siglas Repetidas, por favor verifique los datos ingresados';
+      this.cleanSigla();
+    }
   }
 
   obtenerEstado(codigo: any){
@@ -107,6 +122,8 @@ export class TiposQuejasComponent implements OnInit {
 
   closeAlert():void {
     this.msg = '';
+    this.err='';
+
   }
 
   updateTipoQueja(){
@@ -154,6 +171,12 @@ export class TiposQuejasComponent implements OnInit {
       queja:[' '],
       descripcion:[' '],
       estado: [' ']
+      });
+  }
+
+  cleanSigla(){
+    this.principalForm.patchValue({
+      siglas:[' ']
       });
   }
 

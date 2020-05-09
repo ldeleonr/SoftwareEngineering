@@ -11,6 +11,14 @@
         {{msg}}
       </div>
     </div>
+    <div class="col-sm-4">
+      <div class="alert alert-danger alert-dismissable" *ngIf="err">
+        <a href="#" class="close" (click)="closeAlert()">
+          &times;
+        </a>
+        {{err}}
+      </div>
+    </div>
   </div>
   <div class="row">
     <div class="col-sm-4">
@@ -28,6 +36,7 @@
                 placeholder="Ingrese su código único de identificación">
             </div>
           </div>
+
           <!-- DESCRIPCION -->
           <div class="form-group">
             <label> DESCRIPCION  </label>

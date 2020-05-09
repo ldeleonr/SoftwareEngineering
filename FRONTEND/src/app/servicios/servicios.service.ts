@@ -93,4 +93,8 @@ export class Servicios {
     return this.http.put(`${this.urlTipoQuejas}/${id}`, tipoQueja);
   }
 
+  public getAllTiposQuejas():Observable<any>{
+    return this.http.get(`${this.urlTipoQuejas}`);
+  }
+
 }

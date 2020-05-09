@@ -4,6 +4,8 @@ import { LogInComponent } from './components/log-in/log-in.component';
 import {AdminUserPaComponent} from './components/admin-user-pa/admin-user-pa.component';
 import {AdminPuntosAtencionComponent} from './components/admin-puntos-atencion/admin-puntos-atencion.component';
 import {TiposQuejasComponent} from './components/tipos-quejas/tipos-quejas.component';
+
+
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'admin-users-pa' },
   { path: 'login', component: LogInComponent },
