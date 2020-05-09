@@ -75,6 +75,7 @@ export class TiposQuejasComponent implements OnInit {
     if(siglasRepetidas==='false'){
       this.servicios.addTipoQueja(this.principalModel).subscribe(res=>{
         console.log('RESPUESTA GUARDAR POST',res);
+        this.msg='Sus datos han sido almacenados exitosamente';
         this.obtenerTiposQuejas();
       });
     }

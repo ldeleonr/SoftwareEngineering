@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Servicios } from '../../servicios/servicios.service';
+
 
 @Component({
   selector: 'app-ingreso-queja-contribuyente',
