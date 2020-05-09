@@ -10,52 +10,37 @@ import { Servicios } from '../../servicios/servicios.service';
 })
 export class TiposQuejasComponent implements OnInit {
 
+  //VARIABLES Y OBJETOS
   nameAPP = 'Tipos de Quejas';
   principalForm: FormGroup;
+  updateForm: FormGroup;
   principalModel: any = {};
   tableModel = [];
   listaTiposQuejas: any[] = [];
   listaEstados: any[] = [];
 
-//-------------------
-  listaRegiones: any[] = [];
-  listaPuntos: any[] = [];
-  listaCargos: any[] = [];
-  listaUsuarios: any[] = [];
-  listaTempUsers: any[] = [];
-  title = 'Angular Crud';
-  region = new FormControl('');
-  estadoUpdate = new FormControl('');
-  userForm: FormGroup;
-  userFormUpdate: FormGroup;
-////-------------------
 
   constructor(
     private servicios: Servicios,
     private fb: FormBuilder,
     private formBuild: FormBuilder
   ) {
+    //FORMGROUP PARA MANEJO PRINCIPAL
     this.principalForm = this.formBuild.group({
       siglas: ['' , [Validators.required]],
       descripcion: ['' , [Validators.required]],
       estado:['' , [Validators.required]]
     });
-
-
-
-    this.userFormUpdate = this.fb.group({
+    //FORMGROUP PARA MANEJO EN MODAL DE UPDATE
+    this.updateForm = this.fb.group({
+      descripcion:[''],
+      estado: ['' ],
       id:[''],
-      anio: ['' ],
-      correo : [''],
-      cargo : ['']
+      queja:[''],
     });
    }
    pageActual: number = 1;
     msg = '';
-    employees = [];
-    model: any = {};
-    model2: any = {};
-    users: any = {};
     hideUpdate = true;
 
 
@@ -67,14 +52,6 @@ export class TiposQuejasComponent implements OnInit {
   ngOnInit(): void {
     this.obtenerTiposQuejas();
     this.obtenerEstado(1);
-
-
-
-    //this.obtenerRegion(3);
-    //this.obtenerCargos(5);
-   // this.obtenerPuntosAtencion();
-   // this.obtenerUsuarios();
-
   }
 
   saveQueja(){
@@ -84,18 +61,13 @@ export class TiposQuejasComponent implements OnInit {
     this.principalModel.id = this.tableModel.length + 1;
     this.principalModel.siglas = this.principalForm.value.siglas;
     this.principalModel.descripcion = this.principalForm.value.descripcion;
-    // this.principalModel.estado = this.principalForm.value.estado;
+    this.principalModel.estado = this.principalForm.value.estado;
     this.principalModel.anio = anio;
     this.servicios.addTipoQueja(this.principalModel).subscribe(res=>{
       console.log('RESPUESTA GUARDAR POST',res);
       this.obtenerTiposQuejas();
     });
-
-    //this.tableModel.push(this.principalModel);
   }
-
-
-
 
   obtenerEstado(codigo: any){
     this.servicios.getdatoByDatoPadre(codigo).subscribe(res =>{
@@ -115,8 +87,17 @@ export class TiposQuejasComponent implements OnInit {
   obtenerTiposQuejas(){
     this.servicios.getAllTipoQuejas().subscribe(res =>{
       this.listaTiposQuejas = res;
+      this.tableModel=[];
       console.log('LISTA DE TIPOS DE QUEJAS',this.listaTiposQuejas);
       for(let element of this.listaTiposQuejas){
+        //element.descEstado='ACTIVO';
+
+          if(element.estado.toString()==='1'){
+            element.descEstado='ACTIVO';
+          }
+          else if(element.estado.toString()==='2'){
+            element.descEstado='INACTIVO';
+          }
         console.log('ELEMEEENT ',element);
         this.tableModel.push(element);
       }
@@ -128,20 +109,51 @@ export class TiposQuejasComponent implements OnInit {
     this.msg = '';
   }
 
-  updateTipoQueja(){}
+  updateTipoQueja(){
+    console.log('ESTO LLEGA AL METODO UPDATE TIPO QUEJA',this.updateForm.value);
+    let queja:any;
+    for(let element of this.listaTiposQuejas){
+      if(element.id===this.updateForm.value.id[0]){
+        console.log('QUEJA ORIGINAL A MODIFICAR',element);
+        queja=element;
+      }
+    }
+    queja.descripcion=this.updateForm.value.descripcion;
+    queja.estado=this.updateForm.value.estado;
+    console.log('queja a modificar lista para actualizar',queja);
+    this.servicios.updateTipoQueja(queja.id,queja).subscribe(res=>{
+      console.log(res);
+      this.msg = 'Datos Actualizados';
+      this.obtenerTiposQuejas();
+    });
+    this.clean();
+  }
 
-  editTipoQueja(i):void {}
+  editTipoQueja(i):void {
+    console.log('ID LA QUEJA A MODIFICAR',i);
+    for(let element of this.listaTiposQuejas){
+      if(element.id===i){
+        console.log('ESTA ES LA QUEJA A MODIFICAR',element);
+        this.updateForm.patchValue({
+          descripcion:[element.descripcion],
+          estado: [element.estado],
+          queja:[element.siglas+'-'+element.id+'-'+element.anio],
+          id:[element.id]
+          });
+      }
+    }
+  }
 
   deleteTipoQueja(i):void {}
 
   myValue;
 
-  clean2(){
-    this.userFormUpdate.patchValue({
-      id: '',
-      estado: '' ,
-      correo : '',
-      cargo : ''
+  clean(){
+    this.updateForm.patchValue({
+      id:[' '],
+      queja:[' '],
+      descripcion:[' '],
+      estado: [' ']
       });
   }
 

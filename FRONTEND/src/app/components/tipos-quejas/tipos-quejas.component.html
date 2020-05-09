@@ -37,14 +37,14 @@
             </div>
           </div>
 
-            <!-- REGION -->
+            <!-- Estado -->
             <div  class="form-group">
               <label for="region" class="control-label col-sm-12">
-                Region
+                Estado
               </label>
               <div class="col-sm-10">
                 <select class="form-control" formControlName="estado">
-                  <option selected value="">--Seleccione una región--</option>
+                  <option selected value="">--Seleccione un Estado--</option>
                   <option *ngFor="let estado of listaEstados" [value]="estado.codigodato">
                     {{estado.nombre}}
                   </option>
@@ -66,9 +66,6 @@
     </div>
   </div>
 
-
-
-
   <div class="row">
     <div class="table-responsive">
       <h2>Tipos de quejas: </h2>
@@ -76,7 +73,6 @@
         <thead class="thead-light">
           <tr>
             <th>Id</th>
-            <th>Siglas</th>
             <th>Descripcion</th>
             <th>Estado</th>
             <th>Acciones</th>
@@ -84,91 +80,26 @@
         </thead>
         <tbody>
           <tr  *ngFor="let element of tableModel | paginate: {itemsPerPage: 5, currentPage: pageActual}; let i = index">
-            <td>{{element.id}}</td>
-            <td>{{element.siglas}}</td>
+            <td>{{element.siglas}}-{{element.id}}-{{element.anio}}</td>
             <td>{{element.descripcion}}</td>
-            <td>{{element.anio}}</td>
-
+            <td>{{element.descEstado}}</td>
             <td>
-             <!--  <a (click)="editEmployee(i)" class="btn btn-success">
-                Actualizar
-              </a> -->
               <div class="col-sm-12">
               <div class="row">
-
                 <div class="col-sm-1">
-                  <button style='width:85px; height:35px' (click)="editTipoQueja(i)" type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Editar</button>
+                  <button style='width:99px; height:45px' (click)="editTipoQueja(element.id)" type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Modificar</button>
                  <br>
-                  <button style='width:85px; height:35px' (click)=" deleteTipoQueja(i)"  type="button" class="btn btn-danger" >Eliminar</button>
-
+                  <!-- <button style='width:85px; height:35px' (click)=" deleteTipoQueja(i)"  type="button" class="btn btn-danger" >Eliminar</button> -->
                 </div>
-
-
               </div>
             </div>
-                    <!--  <a (click)="deleteEmployee(i)" class="btn btn-danger">
-                Eliminar
-              </a>
-            --> </td>
+          </td>
           </tr>
-
         </tbody>
       </table>
       <pagination-controls (pageChange)="pageActual= $event"></pagination-controls>
     </div>
-
     <div class="col-sm-4" [hidden]="hideUpdate">
-     <!--  <form class="form-horizontal">
-
-
-
-      <div class="form-group">
-        <label for="punto" class="control-label col-sm-2">
-          Estado
-        </label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="punto"
-            name="punto" [(ngModel)]="model2.punto"
-            placeholder="Defina un estado"
-          >
-        </div>
-      </div>
-
-
-        <div class="form-group">
-          <label for="email" class="control-label col-sm-2">
-            Correo
-          </label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="email"
-              name="email" [(ngModel)]="model2.email"
-              placeholder="Ingrese su nombre segundo apellido"
-            >
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="cargo" class="control-label col-sm-2">
-            Cargo
-          </label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="cargo"
-              name="cargo" [(ngModel)]="model2.cargo"
-              placeholder="Ingrese el cargo del usuario"
-            >
-          </div>
-        </div>
-
-
-
-        <div class="form-group">
-          <div class="col-sm-10 col-sm-offset-2">
-            <button type="submit" class="btn btn-success" (click)="updateEmployee()">
-              Guardar
-            </button>
-          </div>
-        </div>
-      </form> -->
     </div>
   </div>
   <div class="row">
@@ -182,17 +113,37 @@
             <h2 >Modificar Usuario</h2>
             <div class="col-sm-12">
 
-
       <form class="form-horizontal">
-        <form [formGroup]="userFormUpdate" (ngSubmit)="onSubmit">
+        <form [formGroup]="updateForm" (ngSubmit)="onSubmit">
+          <!-- iID -->
+          <div class="form-group">
+            <label for="id" class="control-label col-sm-12">
+              ID
+            </label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" formControlName="id"
+              placeholder=""  readonly>
+            </div>
+          </div>
+
+          <!-- QUEJA -->
+          <div class="form-group">
+            <label for="id" class="control-label col-sm-12">
+              QUEJA
+            </label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" formControlName="queja"
+              placeholder="" readonly>
+            </div>
+          </div>
 
           <!-- ESTADO -->
           <div class="form-group">
             <label for="region" class="control-label col-sm-12">
-              Estado
+              ESTADO
             </label>
-            <div class="col-sm-12">
-              <select class="form-control" formControlName="anio" >
+            <div class="col-sm-10">
+              <select class="form-control" formControlName="estado" >
                 <option selected value=''>--Seleccione un estado--</option>
                 <option *ngFor="let estado of listaEstados" [value]="estado.codigodato">
                   {{estado.nombre}}
@@ -200,36 +151,23 @@
               </select>
             </div>
           </div>
-          <!-- EMAIL -->
+
+          <!-- DESCRIPCION -->
           <div class="form-group">
-            <label for="email" class="control-label col-sm-12">
-              Email
+            <label for="descripcion" class="control-label col-sm-12">
+              DESCRIPCION
             </label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="correo"
-                name="correo" formControlName="correo"
+              <input type="text" class="form-control" formControlName="descripcion"
                 placeholder=""
               >
             </div>
           </div>
-          <!-- CARGO -->
-          <div class="form-group">
-            <label for="cargo" class="control-label col-sm-12">
-              Cargo
-            </label>
-            <div class="col-sm-10">
-              <select class="form-control" formControlName="cargo">
-                <option selected value="">--Seleccione un cargo--</option>
-                <option *ngFor="let cargo of listaCargos" [value]="cargo.codigodato">
-                  {{cargo.nombre}}
-                </option>
-              </select>
-            </div>
-          </div>
+
           <div class="form-group">
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" (click)="clean2()" data-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-secondary" (click)="clean()" data-dismiss="modal">Cancelar</button>
               <button type="button"  class="btn btn-primary" (click)="updateTipoQueja()" data-dismiss="modal">Guardar</button>
             </div>
           </div>

@@ -89,5 +89,8 @@ export class Servicios {
   public addTipoQueja(tipoQueja: Object) : Observable <any> {
     return this.http.post<any>(`${this.urlTipoQuejas}/save`, tipoQueja);
    }
+  public updateTipoQueja(id:any,tipoQueja:Object):Observable <any>{
+    return this.http.put(`${this.urlTipoQuejas}/${id}`, tipoQueja);
+  }
 
 }
