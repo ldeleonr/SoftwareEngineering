@@ -18,6 +18,7 @@ export class Servicios {
    urlCatByDatoPadre = this.baseUrl + '/catalogobydato';
    urlPuntosAtencion = this.baseUrl + '/puntoatencion';
    urlTipoQuejas = this.baseUrl + '/tipoquejas';
+   UrlBancoQuejas = this.baseUrl +'/bancoquejas';
 
    constructor(private http: HttpClient) { }
 
@@ -95,6 +96,10 @@ export class Servicios {
 
   public getAllTiposQuejas():Observable<any>{
     return this.http.get(`${this.urlTipoQuejas}`);
+  }
+
+  public getAllQuejas():Observable<any>{
+    return this.http.get(`${this.UrlBancoQuejas}`);
   }
 
 }

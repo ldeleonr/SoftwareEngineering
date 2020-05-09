@@ -11,16 +11,19 @@ import { Servicios } from '../../servicios/servicios.service';
 export class IngresoQuejaUsuarioComponent implements OnInit {
 
 //VARIABLES Y OBJETOS
-nameAPP = 'Tipos de Quejas';
+nameAPP = 'Ingreso de Quejas por Usuario';
 principalForm: FormGroup;
 updateForm: FormGroup;
 principalModel: any = {};
 tableModel = [];
 listaTiposQuejas: any[] = [];
 listaEstados: any[] = [];
-listaIngreso: any[] = [];
 
 
+listaMediosIngreso: any[] = [];
+listaPuntosAtencion : any[] = [];
+listaUsuarios: any[] = [];
+listaQuejas: any[] = [];
 
 constructor(
   private servicios: Servicios,
@@ -30,6 +33,13 @@ constructor(
   //FORMGROUP PARA MANEJO PRINCIPAL
   this.principalForm = this.formBuild.group({
     medioingreso:  ['' , [Validators.required]],
+    nombre:['' , [Validators.required]],
+    correo:['' , [Validators.required]],
+    telefono:['' , [Validators.required]],
+    agencia:['' , [Validators.required]],
+    usuario:['' , [Validators.required]],
+    detalle:['' , [Validators.required]],
+    //----------------------
     siglas: ['' , [Validators.required]],
     descripcion: ['' , [Validators.required]],
     estado:['' , [Validators.required]]
@@ -55,21 +65,28 @@ onSubmit() {
 
 ngOnInit(): void {
   this.obtenerTiposQuejas();
+
+
   this.obtenerEstado(1);
+  this.obtenerMedioIngreso(6);
+  this.obtenerPuntosAtencion();
+  this.obtenerUsuarios();
+  this.obtenerQuejasUsuarios();
 }
 
 saveQueja(){
   let date: Date = new Date();
   const anio = date.getFullYear().toString();
   console.log(this.principalForm.value);
-  this.principalModel.id = this.tableModel.length + 1;
+/*   this.principalModel.id = this.tableModel.length + 1;
   this.principalModel.siglas = this.principalForm.value.siglas;
   this.principalModel.descripcion = this.principalForm.value.descripcion;
   this.principalModel.estado = this.principalForm.value.estado;
-  this.principalModel.anio = anio;
+  this.principalModel.anio = anio; */
+
   console.log(this.listaTiposQuejas);
-  let siglasRepetidas='false';
-  for(let i=0; i<this.listaTiposQuejas.length;i++){
+  /* let siglasRepetidas='false'; */
+  /* for(let i=0; i<this.listaTiposQuejas.length;i++){
     if(this.listaTiposQuejas[i].siglas === this.principalModel.siglas){
       console.log('EXISTEN SIGLAS IGUALES');
       siglasRepetidas='true';
@@ -84,7 +101,7 @@ saveQueja(){
   else{
     this.err='No puede Ingresar Siglas Repetidas, por favor verifique los datos ingresados';
     this.cleanSigla();
-  }
+  } */
 }
 
 obtenerEstado(codigo: any){
@@ -104,31 +121,12 @@ obtenerEstado(codigo: any){
 
 obtenerMedioIngreso(codigo: any){
   this.servicios.getdatoByDatoPadre(codigo).subscribe(res =>{
-   this.listaTiposQuejas = res;
+   this.listaMediosIngreso = res;
    console.log(res);
   });
 }
 
-obtenerTiposQuejas(){
-  this.servicios.getAllTipoQuejas().subscribe(res =>{
-    this.listaTiposQuejas = res;
-    this.tableModel=[];
-    console.log('LISTA DE TIPOS DE QUEJAS',this.listaTiposQuejas);
-    for(let element of this.listaTiposQuejas){
-      //element.descEstado='ACTIVO';
 
-        if(element.estado.toString()==='1'){
-          element.descEstado='ACTIVO';
-        }
-        else if(element.estado.toString()==='2'){
-          element.descEstado='INACTIVO';
-        }
-      console.log('ELEMEEENT ',element);
-      this.tableModel.push(element);
-    }
-    console.log('mapping',this.tableModel);
-  });
-}
 
 closeAlert():void {
   this.msg = '';
@@ -171,6 +169,21 @@ editTipoQueja(i):void {
   }
 }
 
+obtenerPuntosAtencion() {
+  this.servicios.getAllPuntosAtencioin().subscribe(resp=>{
+    let listatemp=[];
+    resp.forEach(function (value) {
+     // console.log(value);
+      if(value.estado !== 'ELIMINADO'){
+        listatemp.push(value);
+      }
+    });
+    console.log(listatemp);
+    this.listaPuntosAtencion = listatemp;
+    console.log('AGENCIAS ',this.listaPuntosAtencion);
+  });
+}
+
 deleteTipoQueja(i):void {}
 
 myValue;
@@ -190,9 +203,48 @@ cleanSigla(){
     });
 }
 
+obtenerUsuarios() {
+  this.servicios.getAllUsers().subscribe(resp => {
+    console.log('lista usuarios',resp);
+    this.listaUsuarios = resp;
+  });
+}
+
+obtenerQuejasUsuarios(){
+  this.servicios.getAllQuejas().subscribe(res=>{
+    this.listaQuejas=res;
+    this.tableModel=[];
+    for(let element of this.listaTiposQuejas){
+      console.log('ELEMEEENT ',element);
+      this.tableModel.push(element);
+    }
+    console.log('mapping',this.tableModel);
+    console.log('TODAS LAS QUEJAS',res);
+  });
+}
+
+obtenerTiposQuejas(){
+  this.servicios.getAllTipoQuejas().subscribe(res =>{
+    this.listaTiposQuejas = res;
+    this.tableModel=[];
+    console.log('LISTA DE TIPOS DE QUEJAS',this.listaTiposQuejas);
+    for(let element of this.listaTiposQuejas){
+      //element.descEstado='ACTIVO';
+
+        if(element.estado.toString()==='1'){
+          element.descEstado='ACTIVO';
+        }
+        else if(element.estado.toString()==='2'){
+          element.descEstado='INACTIVO';
+        }
+      console.log('ELEMEEENT ',element);
+      this.tableModel.push(element);
+    }
+    console.log('mapping',this.tableModel);
+  });
+}
 
 
 }
-
 
 
