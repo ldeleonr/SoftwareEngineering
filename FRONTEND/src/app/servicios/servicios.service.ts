@@ -102,4 +102,8 @@ export class Servicios {
     return this.http.get(`${this.UrlBancoQuejas}`);
   }
 
+  public addQueja(queja: Object) : Observable <any> {
+    return this.http.post<any>(`${this.UrlBancoQuejas}`, queja);
+   }
+
 }

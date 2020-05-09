@@ -112,7 +112,8 @@
 
           <div class="form-group">
             <div class="col-sm-10 col-sm-offset-2">
-              <button type="submit" class="btn btn-success" (click)="saveQueja()">
+              <button  type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap"
+               type="submit" class="btn btn-success" (click)="saveQueja()">
                 Guardar
               </button>
             </div>
@@ -131,25 +132,34 @@
         <thead class="thead-light">
           <tr>
             <th>Id</th>
-            <th>Descripcion</th>
+           <!--  <th>Codigo Queja</th> -->
             <th>Estado</th>
-            <th>Acciones</th>
+            <th>Fecha Ingreso</th>
+            <th> Medio Ingreso</th>
+            <th> Usaurio Asignado</th>
+            <th>Correo Electronico</th>
+            <th>Detalle Queja</th>
+            <th>Telefono</th>
+            <th>ESTADO INTERNO</th>
+            <th>ESTADO EXTERNO</th>
           </tr>
         </thead>
         <tbody>
           <tr  *ngFor="let element of tableModel | paginate: {itemsPerPage: 5, currentPage: pageActual}; let i = index">
-            <td>{{element.siglas}}-{{element.id}}-{{element.anio}}</td>
-            <td>{{element.descripcion}}</td>
-            <td>{{element.descEstado}}</td>
+            <td>{{element.id}}</td>
+            <!-- <td>{{element.codigotipoqueja}}</td> -->
+            <td>{{element.estado}}</td>
+            <td>{{element.fechaingreso}}</td>
+            <td>{{element.medioingreso}}</td>
+            <td>{{element.usuarioasignado}}</td>
+            <td>{{element.correo}}</td>
+            <td>{{element.detallequeja}}</td>
+            <td>{{element.telefono}}</td>
+            <td>{{element.estadointerno}}</td>
+            <td>{{element.estadoexterno}}</td>
             <td>
               <div class="col-sm-12">
-              <div class="row">
-                <div class="col-sm-1">
-                  <button style='width:99px; height:45px' (click)="editTipoQueja(element.id)" type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Modificar</button>
-                 <br>
-                  <!-- <button style='width:85px; height:35px' (click)=" deleteTipoQueja(i)"  type="button" class="btn btn-danger" >Eliminar</button> -->
-                </div>
-              </div>
+
             </div>
           </td>
           </tr>
@@ -168,65 +178,17 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
-            <h2 >Modificar Usuario</h2>
+            <h2 >Notificación</h2>
             <div class="col-sm-12">
 
       <form class="form-horizontal">
         <form [formGroup]="updateForm" (ngSubmit)="onSubmit">
-          <!-- iID -->
-          <div class="form-group">
-            <label for="id" class="control-label col-sm-12">
-              ID
-            </label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" formControlName="id"
-              placeholder=""  readonly>
-            </div>
-          </div>
 
-          <!-- QUEJA -->
-          <div class="form-group">
-            <label for="id" class="control-label col-sm-12">
-              QUEJA
-            </label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" formControlName="queja"
-              placeholder="" readonly>
-            </div>
-          </div>
-
-          <!-- ESTADO -->
-          <div class="form-group">
-            <label for="region" class="control-label col-sm-12">
-              ESTADO
-            </label>
-            <div class="col-sm-10">
-              <select class="form-control" formControlName="estado" >
-                <option selected value=''>--Seleccione un estado--</option>
-                <option *ngFor="let estado of listaEstados" [value]="estado.codigodato">
-                  {{estado.nombre}}
-                </option>
-              </select>
-            </div>
-          </div>
-
-          <!-- DESCRIPCION -->
-          <div class="form-group">
-            <label for="descripcion" class="control-label col-sm-12">
-              DESCRIPCION
-            </label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" formControlName="descripcion"
-                placeholder=""
-              >
-            </div>
-          </div>
-
+          <h1>La queja número {{numeroQueja}}, ha sido ingresada exitosamente al control de quejas </h1>
           <div class="form-group">
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" (click)="clean()" data-dismiss="modal">Cancelar</button>
-              <button type="button"  class="btn btn-primary" (click)="updateTipoQueja()" data-dismiss="modal">Guardar</button>
+              <button type="button"  class="btn btn-primary"  (click)="closeAlert()"  data-dismiss="modal">Aceptar</button>
             </div>
           </div>
 

@@ -12,6 +12,7 @@ export class IngresoQuejaUsuarioComponent implements OnInit {
 
 //VARIABLES Y OBJETOS
 nameAPP = 'Ingreso de Quejas por Usuario';
+numeroQueja='';
 principalForm: FormGroup;
 updateForm: FormGroup;
 principalModel: any = {};
@@ -38,11 +39,9 @@ constructor(
     telefono:['' , [Validators.required]],
     agencia:['' , [Validators.required]],
     usuario:['' , [Validators.required]],
-    detalle:['' , [Validators.required]],
+    detalle:['' , [Validators.required]]
     //----------------------
-    siglas: ['' , [Validators.required]],
-    descripcion: ['' , [Validators.required]],
-    estado:['' , [Validators.required]]
+
   });
   //FORMGROUP PARA MANEJO EN MODAL DE UPDATE
   this.updateForm = this.fb.group({
@@ -64,7 +63,7 @@ onSubmit() {
 }
 
 ngOnInit(): void {
-  this.obtenerTiposQuejas();
+ // this.obtenerTiposQuejas();
 
 
   this.obtenerEstado(1);
@@ -73,18 +72,51 @@ ngOnInit(): void {
   this.obtenerUsuarios();
   this.obtenerQuejasUsuarios();
 }
+/*
+medioingreso:  ['' , [Validators.required]],
+nombre:['' , [Validators.required]],
+correo:['' , [Validators.required]],
+telefono:['' , [Validators.required]],
+agencia:['' , [Validators.required]],
+usuario:['' , [Validators.required]],
+detalle:['' , [Validators.required]] */
+
 
 saveQueja(){
+
   let date: Date = new Date();
   const anio = date.getFullYear().toString();
-  console.log(this.principalForm.value);
-/*   this.principalModel.id = this.tableModel.length + 1;
-  this.principalModel.siglas = this.principalForm.value.siglas;
+  const correlativo= this.tableModel.length+1;
+  this.numeroQueja='QMS-'+ correlativo+ '-'+ anio;
+  console.log('ESTE ES EL FORM:','this.principalForm.value.correo');
+  console.log('CORREO:',this.principalForm.value.correo);
+ this.principalModel.id = this.tableModel.length + 1;
+ this.principalModel.codigotipoqueja = 1;
+ this.principalModel.detallequeja = this.principalForm.value.detalle;
+ this.principalModel.fechaatencion =null;
+ this.principalModel.fechaingreso = date;
+ this.principalModel.fechamodifico=null;
+ this.principalModel.medioingreso= this.principalForm.value.medioingreso;
+ this.principalModel.usuarioingreso=this.principalForm.value.usuario;
+ this.principalModel.usuarioingreso=this.principalForm.value.nombre;
+ this.principalModel.usuariomodifico=null;
+ this.principalModel.estado=1;
+ this.principalModel.puntoasignado=this.principalForm.value.agencia;
+ this.principalModel.correo=this.principalForm.value.correo;
+ this.principalModel.telefono= this.principalForm.value.telefono;
+ this.principalModel.estadointerno= 45;
+ this.principalModel.estadoexterno= 44;
+/*   this.principalModel.siglas = this.principalForm.value.siglas;
   this.principalModel.descripcion = this.principalForm.value.descripcion;
   this.principalModel.estado = this.principalForm.value.estado;
   this.principalModel.anio = anio; */
 
-  console.log(this.listaTiposQuejas);
+  console.log(this.principalModel);
+  this.servicios.addQueja(this.principalModel).subscribe(resp=>{
+    console.log('QUEJAS', resp);
+    this.msg='Queja ingresada exitosamente';
+    this.obtenerQuejasUsuarios();
+  });
   /* let siglasRepetidas='false'; */
   /* for(let i=0; i<this.listaTiposQuejas.length;i++){
     if(this.listaTiposQuejas[i].siglas === this.principalModel.siglas){
@@ -214,7 +246,7 @@ obtenerQuejasUsuarios(){
   this.servicios.getAllQuejas().subscribe(res=>{
     this.listaQuejas=res;
     this.tableModel=[];
-    for(let element of this.listaTiposQuejas){
+    for(let element of this.listaQuejas){
       console.log('ELEMEEENT ',element);
       this.tableModel.push(element);
     }
