@@ -170,3 +170,8 @@ CREATE TABLE banco_quejas(
 	
 	
 	select * from banco_users where usuario='ldeleonr9' and password='root123'
+	
+	select * from banco_bd.banco_quejas
+	
+	select * from banco_bd.catalogobydatopadre where codigopadre=6
+	insert into banco_bd.catalogobydatopadre values (0,6,null,"PORTAL","A");

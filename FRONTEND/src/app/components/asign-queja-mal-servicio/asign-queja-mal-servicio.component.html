@@ -1,1 +1,265 @@
-<p>asign-queja-mal-servicio works!</p>
+
+<div class="container app">
+  <div class="row">
+    <div class="col-sm-8">
+    </div>
+    <div class="col-sm-4">
+      <div class="alert alert-success alert-dismissable" *ngIf="msg">
+        <a href="#" class="close" (click)="closeAlert()">
+          &times;
+        </a>
+        {{msg}}
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="alert alert-danger alert-dismissable" *ngIf="err">
+        <a href="#" class="close" (click)="closeAlert()">
+          &times;
+        </a>
+        {{err}}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <img width="150" src="https://image.flaticon.com/icons/svg/1484/1484573.svg" />
+    </div>
+    <div class="col-sm-8">
+      <form class="form-horizontal">
+        <h1 *ngIf="nameAPP" >{{nameAPP}}</h1>
+        <form [formGroup]="principalForm">
+
+              <!-- MEDIO DE INGRESO -->
+            <!-- <div  class="form-group">
+              <label for="medioIngreso" class="control-label col-sm-12">
+                MEDIO DE INGRESO
+              </label>
+              <div class="col-sm-10">
+                <select class="form-control" formControlName="medioingreso">
+                  <option selected value="">--Seleccione un medio de ingreso--</option>
+                  <option *ngFor="let medios of listaMediosIngreso" [value]="medios.codigodato">
+                    {{medios.nombre}}
+                  </option>
+                </select>
+              </div>
+            </div> -->
+            <!-- NOMBRE -->
+      <!--     <div class="form-group">
+            <label> NOMBRE(*) </label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control"  formControlName="nombre"
+                placeholder="Ingrese su nombre">
+            </div>
+          </div> -->
+              <!-- CORREO -->
+         <!--      <div class="form-group">
+                <label> CORREO(*) </label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control"  formControlName="correo"
+                    placeholder="Ingrese su correo electronico">
+                </div>
+              </div> -->
+
+                <!-- TELEFONO -->
+    <!--           <div class="form-group">
+                <label> TELEFONO(*) </label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control"  formControlName="telefono"
+                    placeholder="Ingrese su telefono">
+                </div>
+              </div> -->
+
+              <!-- PUNTOS DE ATENCIÓN-->
+     <!--        <div  class="form-group">
+              <label for="medioIngreso" class="control-label col-sm-12">
+                OFICINA / AGENCIA
+              </label>
+              <div class="col-sm-10">
+                <select class="form-control" formControlName="agencia">
+                  <option selected value="">--Seleccione una oficina de ingreso--</option>
+                  <option *ngFor="let puntos of listaPuntosAtencion" [value]="puntos.id">
+                    {{puntos.nombre}}
+                  </option>
+                </select>
+              </div>
+            </div>
+ -->
+             <!-- USUARIOS-->
+        <!--      <div  class="form-group">
+              <label for="medioIngreso" class="control-label col-sm-12">
+                NOMBRE  DEL EMPLEADO
+              </label>
+              <div class="col-sm-10">
+                <select class="form-control" formControlName="usuario">
+                  <option selected value="">--Seleccione un usuario--</option>
+                  <option *ngFor="let usuario of listaUsuarios" [value]="usuario.codigopuntoasignado">
+                    {{usuario.primernombre}} {{usuario.segundonombre}}
+                     {{usuario.primerapellido}} {{usuario.segundopellido}}
+                  </option>
+                </select>
+              </div>
+            </div> -->
+
+              <!-- TELEFONO -->
+          <!--     <div class="form-group">
+                <label> DETALLE DE LA QUEJA(*) </label>
+                <div class="col-sm-10">
+                <input type="text" class="form-control"  formControlName="usuario"
+                    placeholder="Ingrese el detalle de la queja">
+                   <textarea  placeholder="Ingrese el detalle de la queja" class="form-control"  formControlName="detalle" rows="3"></textarea>
+               </div>
+              </div> -->
+
+        <!--   <div class="form-group">
+            <div class="col-sm-10 col-sm-offset-2">
+              <button  type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap"
+               type="submit" class="btn btn-success" (click)="saveQueja()">
+                Guardar
+              </button>
+            </div>
+          </div> -->
+        </form>
+
+      </form>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="table-responsive">
+      <h2>Quejas ingresadass: </h2>
+      <table class="table">
+        <thead class="thead-light">
+          <tr>
+            <th>CORRELATIVO</th>
+            <th>FECHA  Y HORA DE CREACIÓN</th>
+            <th>ADMINISTRAR</th>
+
+
+            <!-- <th>Estado</th>
+            <th>Fecha Ingreso</th>
+            <th> Medio Ingreso</th>
+            <th> Usaurio Asignado</th>
+            <th>Correo Electronico</th>
+            <th>Detalle Queja</th>
+            <th>Telefono</th>
+            <th>ESTADO INTERNO</th>
+            <th>ESTADO EXTERNO</th>
+            <th>ACCIONES</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr  *ngFor="let element of tableModel | paginate: {itemsPerPage: 5, currentPage: pageActual}; let i = index">
+            <td>QMS-{{element.id}}-2020</td>
+            <td>{{element.fechaingreso}}</td>
+           <!--  <td>{{element.estado}}</td>
+            <td>{{element.fechaingreso}}</td>
+            <td>{{element.medioingreso}}</td>
+            <td>{{element.usuarioasignado}}</td>
+            <td>{{element.correo}}</td>
+            <td>{{element.detallequeja}}</td>
+            <td>{{element.telefono}}</td>
+            <td>{{element.estadointerno}}</td>
+            <td>{{element.estadoexterno}}</td> -->
+            <td>
+              <div class="col-sm-12">
+                <div class="row">
+                  <div class="col-sm-1">
+                    <button style='width:150px; height:45px' (click)="atenderQueja(element.id)" type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Ver Ficha Queja</button>
+                   <br>
+                    <!-- <button style='width:85px; height:35px' (click)=" deleteTipoQueja(i)"  type="button" class="btn btn-danger" >Eliminar</button> -->
+                  </div>
+                </div>
+              </div>
+          </td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-controls (pageChange)="pageActual= $event"></pagination-controls>
+    </div>
+    <div class="col-sm-4" [hidden]="hideUpdate">
+    </div>
+  </div>
+
+
+
+  <div class="row">
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h2 >Modificar Usuario</h2>
+            <div class="col-sm-12">
+
+      <form class="form-horizontal">
+        <form [formGroup]="updateForm" (ngSubmit)="onSubmit">
+          <!-- iID -->
+          <div class="form-group">
+            <label for="id" class="control-label col-sm-12">
+              ID
+            </label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" formControlName="id"
+              placeholder=""  readonly>
+            </div>
+          </div>
+
+          <!-- QUEJA -->
+          <div class="form-group">
+            <label for="id" class="control-label col-sm-12">
+              QUEJA
+            </label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" formControlName="queja"
+              placeholder="" readonly>
+            </div>
+          </div>
+
+          <!-- ESTADO -->
+          <div class="form-group">
+            <label for="region" class="control-label col-sm-12">
+              ESTADO
+            </label>
+            <div class="col-sm-10">
+              <select class="form-control" formControlName="estado" >
+                <option selected value=''>--Seleccione un estado--</option>
+                <option *ngFor="let estado of listaEstados" [value]="estado.codigodato">
+                  {{estado.nombre}}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <!-- DESCRIPCION -->
+          <div class="form-group">
+            <label for="descripcion" class="control-label col-sm-12">
+              DESCRIPCION
+            </label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" formControlName="descripcion"
+                placeholder=""
+              >
+            </div>
+          </div>
+
+          <div class="form-group">
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="clean()" data-dismiss="modal">Cancelar</button>
+              <button type="button"  class="btn btn-primary" (click)="updateTipoQueja()" data-dismiss="modal">Guardar</button>
+            </div>
+          </div>
+
+        </form>
+      </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
