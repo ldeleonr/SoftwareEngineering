@@ -72,6 +72,7 @@ insert into catalogopadre values (3,"Region","A");
 insert into catalogopadre values (4,"Departamento","A");
 insert into catalogopadre values (5,"Cargo","A");
 insert into catalogopadre values (6,"Medios de Ingreso","A");
+insert into catalogopadre values (7,"Codigos de queja","A");
 
 
 /*1. ASIGNAR ROLES*/
@@ -129,6 +130,9 @@ insert into puntosatencion values (1,"Central de Bancos",1,18,6)
 insert into puntosatencion values (2,"Banco metropolitano",1,18,6)
 
 
+insert into catalogobydatopadre values (44,7,null,"EXTERNO PRESENTADO","A")
+insert into catalogobydatopadre values (45,7,null,"INTERNO PRESENTA","A")
+
 
 /*-----------------------------------------------------------*/
 
@@ -154,9 +158,14 @@ CREATE TABLE banco_quejas(
 	usuarioingreso varchar (50),
 	usuariomodifico varchar (50),
 	usuarioasignado INT(3),
-	fechaatencion DATE
+	fechaatencion DATE,
+	puntoasignado INT(3),
+	correo varchar (50),
+	estadointerno INT(3),
+	estadoexterno INT(3),
+	telefono  varchar (50)
 )
-	insert into banco_quejas values (0,1,2,'QUEJA POR X RAZON',1,null,null,'ldeleonr9',null, 1,null);
+	insert into banco_quejas values (0,1,2,'QUEJA POR X RAZON',1,null,null,'ldeleonr9',null, 1,null,1,'ldeleonr9@miumg.edu.gt',1,1,'6654984');
 
 	
 	

@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+/* CAPTCHA */
+import  {  RecaptchaModule ,  RecaptchaFormsModule  }  from  'ng-recaptcha' ;
 /* Angular material */
 import { AngularMaterialModule } from './angular-material.module';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
@@ -50,6 +52,7 @@ import {
   MatFormFieldModule,
   MatPaginatorIntl
 } from '@angular/material';
+
 import { AdminPuntosAtencionComponent } from './components/admin-puntos-atencion/admin-puntos-atencion.component';
 import { TiposQuejasComponent } from './components/tipos-quejas/tipos-quejas.component';
 import { IngresoQuejaUsuarioComponent } from './components/ingreso-queja-usuario/ingreso-queja-usuario.component';
@@ -59,6 +62,9 @@ import { SeguimientoCentralizadorComponent } from './components/seguimiento-cent
 import { SeguimientoPuntosAtencionComponent } from './components/seguimiento-puntos-atencion/seguimiento-puntos-atencion.component';
 import { AutoConsultaContribuyenteComponent } from './components/auto-consulta-contribuyente/auto-consulta-contribuyente.component';
 import { ReporteUnidadAdministrativaComponent } from './components/reporte-unidad-administrativa/reporte-unidad-administrativa.component';
+import { from } from 'rxjs';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MenuAppComponent } from './components/menu-app/menu-app.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +79,8 @@ import { ReporteUnidadAdministrativaComponent } from './components/reporte-unida
     SeguimientoCentralizadorComponent,
     SeguimientoPuntosAtencionComponent,
     AutoConsultaContribuyenteComponent,
-    ReporteUnidadAdministrativaComponent
+    ReporteUnidadAdministrativaComponent,
+    MenuAppComponent
   ],
   imports: [
     BrowserModule,
@@ -87,7 +94,9 @@ import { ReporteUnidadAdministrativaComponent } from './components/reporte-unida
     HttpClientModule,
     MatSliderModule,
     MatCardModule,
-    MatInputModule
+    RecaptchaModule ,   // este es el módulo principal recaptcha
+    RecaptchaFormsModule ,  // este es el módulo para la validación de formularios en caso de formulario
+    MatInputModule, NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

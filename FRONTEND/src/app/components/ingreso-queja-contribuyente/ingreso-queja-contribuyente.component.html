@@ -1,1 +1,253 @@
-<p>ingreso-queja-contribuyente works!</p>
+
+<div class="container app">
+
+
+
+
+
+  <div class="row">
+    <div class="modal fade" data-backdrop="static" id="captchaModel" tabindex="-5" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="modal-header">
+              <h1 class="modal-title"><i class="fas fa-exclamation-circle"></i> Verifica que eres un humano</h1>
+            </div>
+            <div class="modal-body">
+
+                <div class="col-sm-12">
+                  <!--
+                    the SITE_KEY is the sitekey from your admin console.
+                    use form control for validation
+                  -->
+                  <re-captcha (resolved)="resolved($event)"
+                              formControlName="recaptchaReactive"
+                              siteKey="6LfNP_gUAAAAAFLGCTcDEH6aUWrvOxKG5VhpTVav">
+                  </re-captcha>
+                  <p>Gracias por usar los servicios de modernización <br/> -Banco Mi Pistio </p>
+                  <button type="button" #closebutton class="close" data-dismiss="modal"> </button>
+              </div>
+            </div>
+
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-8">
+    </div>
+    <div class="col-sm-4">
+      <div class="alert alert-success alert-dismissable" *ngIf="msg">
+        <a href="#" class="close" (click)="closeAlert()">
+          &times;
+        </a>
+        {{msg}}
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="alert alert-danger alert-dismissable" *ngIf="err">
+        <a href="#" class="close" (click)="closeAlert()">
+          &times;
+        </a>
+        {{err}}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <img width="300" src="https://portal.sat.gob.gt/portal/wp-content/uploads/2019/12/ConsultaEstadoDeQuejasV2.png" />
+    </div>
+    <div class="col-sm-8">
+      <form class="form-horizontal">
+        <h2 *ngIf="nameAPP" >{{nameAPP}}</h2>
+        <form [formGroup]="principalForm">
+
+
+            <!-- NOMBRE -->
+          <div class="form-group">
+            <label> NOMBRE(*) </label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control"  formControlName="nombre"
+                placeholder="Ingrese su nombre">
+            </div>
+          </div>
+              <!-- CORREO -->
+              <div class="form-group">
+                <label> CORREO(*) </label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control"  formControlName="correo"
+                    placeholder="Ingrese su correo electronico">
+                </div>
+              </div>
+
+                <!-- TELEFONO -->
+              <div class="form-group">
+                <label> TELEFONO(*) </label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control"  formControlName="telefono"
+                    placeholder="Ingrese su telefono">
+                </div>
+              </div>
+
+              <!-- PUNTOS DE ATENCIÓN-->
+            <div  class="form-group">
+              <label for="medioIngreso" class="control-label col-sm-12">
+                OFICINA / AGENCIA
+              </label>
+              <div class="col-sm-10">
+                <select class="form-control" formControlName="agencia">
+                  <option selected value="">--Seleccione una oficina de ingreso--</option>
+                  <option *ngFor="let puntos of listaPuntosAtencion" [value]="puntos.id">
+                    {{puntos.nombre}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+             <!-- USUARIOS-->
+             <div  class="form-group">
+              <label for="medioIngreso" class="control-label col-sm-12">
+                NOMBRE  DEL EMPLEADO
+              </label>
+              <div class="col-sm-10">
+                <select class="form-control" formControlName="usuario">
+                  <option selected value="">--Seleccione un usuario--</option>
+                  <option *ngFor="let usuario of listaUsuarios" [value]="usuario.codigopuntoasignado">
+                    {{usuario.primernombre}} {{usuario.segundonombre}}
+                     {{usuario.primerapellido}} {{usuario.segundopellido}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+              <!-- DETALLE -->
+              <div class="form-group">
+                <label> DETALLE DE LA QUEJA(*) </label>
+                <div class="col-sm-10">
+          <!--         <input type="text" class="form-control"  formControlName="usuario"
+                    placeholder="Ingrese el detalle de la queja"> -->
+                   <textarea  placeholder="Ingrese el detalle de la queja" class="form-control"  formControlName="detalle" rows="3"></textarea>
+               </div>
+              </div>
+
+              <div class="form-group">
+                <label> ADJUNTAR DOCUMENTO </label>
+                <div class="col-sm-10">
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" multiple formControlName="importFile" id="importFile" (change)="onFileChange($event.target.files)">
+                                  <label class="custom-file-label" #labelImport for="importFile"><i class="fas fa-search"></i> Choose file</label>
+                  </div>
+                </div>
+              </div>
+
+
+
+        </form>
+
+      </form>
+
+
+
+      <div class="form-group">
+        <div class="row">
+          <div class="col-sm-2"></div>
+        <div class="col-sm-4"><button  type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap"
+          type="submit" class="btn btn-success" (click)="verificarQueja()">
+           Enviar
+         </button></div>
+        <div class="col-sm-4">
+          <a routerLink="/menu-banco">
+            <button  (click)="cleanPrincipal()"  type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap" >Salir</button>
+          </a>
+          </div>
+
+        <div class="col-sm-2"></div>
+      </div>
+    </div>
+
+
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="table-responsive">
+      <h2>Tipos de quejas: </h2>
+      <table class="table">
+        <thead class="thead-light">
+          <tr>
+            <th>Id</th>
+           <!--  <th>Codigo Queja</th> -->
+            <th>Estado</th>
+            <th>Fecha Ingreso</th>
+            <th> Medio Ingreso</th>
+            <th> Usaurio Asignado</th>
+            <th>Correo Electronico</th>
+            <th>Detalle Queja</th>
+            <th>Telefono</th>
+            <th>ESTADO INTERNO</th>
+            <th>ESTADO EXTERNO</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr  *ngFor="let element of tableModel | paginate: {itemsPerPage: 5, currentPage: pageActual}; let i = index">
+            <td>{{element.id}}</td>
+            <!-- <td>{{element.codigotipoqueja}}</td> -->
+            <td>{{element.estado}}</td>
+            <td>{{element.fechaingreso}}</td>
+            <td>{{element.medioingreso}}</td>
+            <td>{{element.usuarioasignado}}</td>
+            <td>{{element.correo}}</td>
+            <td>{{element.detallequeja}}</td>
+            <td>{{element.telefono}}</td>
+            <td>{{element.estadointerno}}</td>
+            <td>{{element.estadoexterno}}</td>
+            <td>
+              <div class="col-sm-12">
+
+            </div>
+          </td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-controls (pageChange)="pageActual= $event"></pagination-controls>
+    </div>
+    <div class="col-sm-4" [hidden]="hideUpdate">
+    </div>
+  </div>
+  <div class="row">
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h2 >Notificación</h2>
+            <div class="col-sm-12">
+
+      <form class="form-horizontal">
+        <form [formGroup]="updateForm" (ngSubmit)="onSubmit">
+
+         <h1> <p>{{alertaQueja}} <br/><br/> {{alertaCuentahabiente}} </p></h1>
+          <div class="form-group">
+
+            <div class="modal-footer">
+              <button type="button"  class="btn btn-primary"  (click)="closeAlert()"  data-dismiss="modal">Aceptar</button>
+            </div>
+          </div>
+
+        </form>
+      </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
