@@ -134,7 +134,9 @@
             <th>CORRELATIVO</th>
             <th>FECHA  Y HORA DE CREACIÓN</th>
             <th>ADMINISTRAR</th>
-
+            <th>ADMINISTRAR</th>
+            <th>ADMINISTRAR</th>
+            <th>ADMINISTRAR</th>
 
             <!-- <th>Estado</th>
             <th>Fecha Ingreso</th>
@@ -162,16 +164,53 @@
             <td>{{element.estadointerno}}</td>
             <td>{{element.estadoexterno}}</td> -->
             <td>
-              <div class="col-sm-12">
+              <div class="col-sm-8">
                 <div class="row">
                   <div class="col-sm-1">
-                    <button style='width:150px; height:45px' (click)="atenderQueja(element.id)" type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Ver Ficha Queja</button>
+                    <button style='width:150px; height:45px' (click)="verQueja(element.id)" type="button" class="btn btn-success" data-toggle="modal" data-target="#fichaModal" data-whatever="@getbootstrap">Ver Ficha Queja</button>
                    <br>
                     <!-- <button style='width:85px; height:35px' (click)=" deleteTipoQueja(i)"  type="button" class="btn btn-danger" >Eliminar</button> -->
                   </div>
                 </div>
               </div>
           </td>
+
+          <td>
+            <div class="col-sm-4">
+              <div class="row">
+                <div class="col-sm-1">
+                  <button style='width:150px; height:45px' (click)="asignarQueja(element.id)" type="button" class="btn btn-warning" data-toggle="modal" data-target="#asignarModal" data-whatever="@getbootstrap">Asignar Queja</button>
+                 <br>
+                  <!-- <button style='width:85px; height:35px' (click)=" deleteTipoQueja(i)"  type="button" class="btn btn-danger" >Eliminar</button> -->
+                </div>
+              </div>
+            </div>
+        </td>
+
+        <td>
+          <div class="col-sm-12">
+            <div class="row">
+              <div class="col-sm-1">
+                <button style='width:150px; height:45px' (click)="rechazarQueja(element.id)" type="button" class="btn btn-primary" data-toggle="modal" data-target="#rechazarModal" data-whatever="@getbootstrap">Rechazar Queja</button>
+               <br>
+                <!-- <button style='width:85px; height:35px' (click)=" deleteTipoQueja(i)"  type="button" class="btn btn-danger" >Eliminar</button> -->
+              </div>
+            </div>
+          </div>
+      </td>
+
+        <td>
+            <div class="col-sm-12">
+              <div class="row">
+                <div class="col-sm-1">
+                  <button style='width:150px; height:45px' (click)="ingresarDetalleQueja(element.id)" type="button" class="btn btn-info" data-toggle="modal" data-target="#detalleModal" data-whatever="@getbootstrap">Ingresar detalle</button>
+                <br>
+                  <!-- <button style='width:85px; height:35px' (click)=" deleteTipoQueja(i)"  type="button" class="btn btn-danger" >Eliminar</button> -->
+                </div>
+              </div>
+            </div>
+      </td>
+
           </tr>
         </tbody>
       </table>
@@ -182,9 +221,260 @@
   </div>
 
 
-
+<!-- MODAL VER FICHA -->
   <div class="row">
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="fichaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h2 >Ver Ficha de Queja</h2>
+            <div class="col-sm-12">
+
+              <div class="table-responsive">
+                <h2>Quejas ingresadas: </h2>
+                <table class="table">
+                  <thead class="thead-light">
+                    <tr>
+                      <th>CORRELATIVO</th>
+                      <!-- <th>ESTADO</th> -->
+                      <th>NOMBRE</th>
+                      <th>CORREO</th>
+                      <th>TELEFONO</th>
+                      <th>OFICINA/
+                        <br/>AGENCIA</th>
+                      <th> NOMBRE EMPLEADO</th>
+                      <th>FECHA DE CREACION</th>
+                      <th>MEDIO DE INGRESO</th>
+                      <th>DETALLE QUEJA </th>
+                      <th>DESCARGA ARCHIVOS </th>
+                   <!--    <th>ESTADO INTERNO</th>
+                      <th>ESTADO EXTERNO</th>
+                      <th>DOCUMENTO</th> -->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr  *ngFor="let element of fichaModel | paginate: {itemsPerPage: 5, currentPage: pageActual}; let i = index">
+                      <td>QMS-{{element.id}}-2020</td>
+                     <!--  <td>{{element.estado}}</td> -->
+                     <td>{{element.usuarioingreso}}</td>
+                     <td>{{element.correo}}</td>
+                     <td>{{element.telefono}}</td>
+                     <td>{{element.puntoasignado}}</td>
+                     <td>{{element.usuarioasignado}}</td>
+                      <td>{{element.fechaingreso}}</td>
+                      <td>{{element.medioingreso}}</td>
+                      <td>{{element.detallequeja}}</td>
+                      <!-- <td>{{element.estadointerno}}</td>
+                      <td>{{element.estadoexterno}}</td> -->
+                      <td>
+                          <a href="http://jornadasciberseguridad.riasc.unileon.es/archivos/ejemplo_esp.pdf">
+                            <div class="container">
+                              <img width="50" src="https://png.pngtree.com/png-clipart/20190516/original/pngtree-vector-download-icon-png-image_3772809.jpg" />
+                            </div>
+                          </a>
+                    </td>
+
+
+                    </tr>
+                  </tbody>
+                </table>
+
+                <pagination-controls (pageChange)="pageActual= $event"></pagination-controls>
+              </div>
+            </div>
+            <div class="row">
+            <div class="col-sm-11"></div>
+            <div class="col-sm-1">
+              <button type="button" class="btn btn-secondary"  data-dismiss="modal">Cerrar </button>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  <!-- MODAL ASIGNAR QUEJA -->
+  <div class="row">
+    <div class="modal fade" id="asignarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h2 >Modificar Usuario</h2>
+            <div class="col-sm-12">
+
+              <div class="table-responsive">
+                <h2>Quejas ingresadas: </h2>
+                <table class="table">
+                  <thead class="thead-light">
+                    <tr>
+                      <th>CORRELATIVO</th>
+                      <!-- <th>ESTADO</th> -->
+                      <th>NOMBRE</th>
+                      <th>CORREO</th>
+                      <th>TELEFONO</th>
+                      <th>OFICINA/
+                        <br/>AGENCIA</th>
+                      <th> NOMBRE EMPLEADO</th>
+                      <th>FECHA DE CREACION</th>
+                      <th>MEDIO DE INGRESO</th>
+                      <th>DETALLE QUEJA </th>
+                      <th>DESCARGA ARCHIVOS </th>
+                   <!--    <th>ESTADO INTERNO</th>
+                      <th>ESTADO EXTERNO</th>
+                      <th>DOCUMENTO</th> -->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr  *ngFor="let element of fichaModel | paginate: {itemsPerPage: 5, currentPage: pageActual}; let i = index">
+                      <td>QMS-{{element.id}}-2020</td>
+                     <!--  <td>{{element.estado}}</td> -->
+                     <td>{{element.usuarioingreso}}</td>
+                     <td>{{element.correo}}</td>
+                     <td>{{element.telefono}}</td>
+                     <td>{{element.puntoasignado}}</td>
+                     <td>{{element.usuarioasignado}}</td>
+                      <td>{{element.fechaingreso}}</td>
+                      <td>{{element.medioingreso}}</td>
+                      <td>{{element.detallequeja}}</td>
+                      <!-- <td>{{element.estadointerno}}</td>
+                      <td>{{element.estadoexterno}}</td> -->
+                      <td>
+                          <a href="http://jornadasciberseguridad.riasc.unileon.es/archivos/ejemplo_esp.pdf">
+                            <div class="container">
+                              <img width="50" src="https://png.pngtree.com/png-clipart/20190516/original/pngtree-vector-download-icon-png-image_3772809.jpg" />
+                            </div>
+                          </a>
+                    </td>
+
+
+                    </tr>
+                  </tbody>
+                </table>
+
+                <pagination-controls (pageChange)="pageActual= $event"></pagination-controls>
+              </div>
+
+
+
+                <form class="form-horizontal">
+                  <form [formGroup]="updateForm" (ngSubmit)="onSubmit">
+                    <!-- iID -->
+                    <div class="form-group">
+                      <label for="id" class="control-label col-sm-12">
+                        ID
+                      </label>
+                      <div class="col-sm-12">
+                        <input type="text" class="form-control" formControlName="id"
+                        placeholder=""  readonly>
+                      </div>
+                    </div>
+
+                    <!-- AGENCIA -->
+                    <div class="form-group">
+                      <label for="" class="control-label col-sm-12">
+                        AGENCIA/OFICINA
+                      </label>
+                      <div class="col-sm-12">
+                        <select class="form-control" (change)="onChange($event.target.value)" formControlName="puntoatencion" >
+                          <option selected value=''>--Seleccione una Oficina/Agencia--</option>
+                          <option *ngFor="let pa of listaPuntosAtencion" [value]="pa.id">
+                            {{pa.nombre}}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <!-- QUEJA -->
+                    <!-- <div class="form-group">
+                      <label for="id" class="control-label col-sm-12">
+                        QUEJA
+                      </label>
+                      <div class="col-sm-12">
+                        <input type="text" class="form-control" formControlName="queja"
+                        placeholder="" readonly>
+                      </div>
+                    </div> -->
+
+                    <!-- USUARIO -->
+                    <div class="form-group">
+                      <label for="usuario" class="control-label col-sm-12">
+                        USUARIO ASIGNADO
+                      </label>
+                      <div class="col-sm-10">
+                        <select class="form-control" formControlName="usuario" >
+                          <option selected value=''>--Seleccione un usuario--</option>
+                          <option *ngFor="let us of listaUsuarioByPa" [value]="us.id">
+                            {{us.primernombre}} {{us.segundonombre}} {{us.primerapellido}} {{us.segundoapellido}}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <!-- DESCRIPCION -->
+                    <div class="form-group">
+                      <label for="descripcion" class="control-label col-sm-12">
+                        DESCRIPCION
+                      </label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" formControlName="descripcion"
+                          placeholder=""
+                        >
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" (click)="clean()" data-dismiss="modal">Cancelar</button>
+                        <button type="button"  class="btn btn-primary" (click)="asignarUsuarioQueja()" data-dismiss="modal">Guardar</button>
+                      </div>
+                    </div>
+
+                  </form>
+                </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL RECHAZAR QUEJA -->
+  <div class="row">
+    <div class="modal fade" id="rechazarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h2 >Modificar Usuario</h2>
+            <div class="col-sm-12">
+
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL INGRESAR DETALLE -->
+  <div class="row">
+    <div class="modal fade" id="detalleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-body">
@@ -262,4 +552,5 @@
       </div>
     </div>
   </div>
+
 </div>

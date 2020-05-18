@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnDestroy, OnInit ,ViewChild} from '@angular/core';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Servicios } from '../../servicios/servicios.service';
+import * as moment from 'moment';
 
 
 @Component({
@@ -306,7 +307,25 @@ export class IngresoQuejaContribuyenteComponent implements OnInit {
       this.tableModel=[];
       for(let element of this.listaQuejas){
         console.log('ELEMEEENT ',element);
-        this.tableModel.push(element);
+        if (element.estadoexterno===44 && element.estadointerno===45){
+          element.estadoexterno='Presentada';
+          element.estadointerno='Presentada';
+          element.fechaingreso=moment(element.fechaingreso).format("DD/MM/YYYY");
+          this.tableModel.push(element);
+        }
+        if(element.estado.toString()==='1'){
+          element.estado='ACTIVO';
+        }
+        else if(element.estado.toString()==='2'){
+          element.estado='INACTIVO';
+        }
+        for(let mi of this.listaMediosIngreso){
+          if(mi.codigodato==element.medioingreso){
+            element.medioingreso=mi.nombre;
+
+          }
+        }
+
       }
       console.log('mapping',this.tableModel);
       console.log('TODAS LAS QUEJAS',res);

@@ -14,8 +14,7 @@ import { SeguimientoPuntosAtencionComponent } from './components/seguimiento-pun
 import { AutoConsultaContribuyenteComponent } from './components/auto-consulta-contribuyente/auto-consulta-contribuyente.component';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: '/login' },
-  { path: '*', pathMatch: 'full', redirectTo: '/login' },
+  { path: '', pathMatch: 'full', redirectTo: '/menu-banco' },
   {path: 'menu-banco', component: MenuAppComponent},
   { path: 'login', component: LogInComponent },
   {path : 'usuarios-puntos-atencion', component: AdminUserPaComponent},

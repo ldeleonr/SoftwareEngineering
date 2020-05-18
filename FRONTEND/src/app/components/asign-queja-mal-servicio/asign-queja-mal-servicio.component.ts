@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Servicios } from '../../servicios/servicios.service';
 import * as moment from 'moment';
+import { _MatTabHeaderMixinBase } from '@angular/material/tabs/typings/tab-header';
 
 @Component({
   selector: 'app-asign-queja-mal-servicio',
@@ -17,8 +18,10 @@ export class AsignQuejaMalServicioComponent  implements OnInit {
   updateForm: FormGroup;
   principalModel: any = {};
   tableModel = [];
+  fichaModel=[];
   listaTiposQuejas: any[] = [];
   listaEstados: any[] = [];
+  listaUsuarioByPa:any[];
 
 
   listaMediosIngreso: any[] = [];
@@ -49,6 +52,8 @@ export class AsignQuejaMalServicioComponent  implements OnInit {
       estado: ['' ],
       id:[''],
       queja:[''],
+      puntoatencion:[''],
+      usuario:['']
     });
    }
    pageActual: number = 1;
@@ -203,7 +208,87 @@ export class AsignQuejaMalServicioComponent  implements OnInit {
   }
 
 
-  atenderQueja(i):void {
+  verQueja(i):void {
+    console.log('ID LA QUEJA A atender',i);
+    this.fichaModel=[];
+    for(let element of this.listaQuejas){
+      if(element.id===i){
+        console.log('ESTA ES LA QUEJA A VER',element);
+        for(let mi of this.listaMediosIngreso){
+          if(mi.codigodato==element.medioingreso){
+            element.medioingreso=mi.nombre;
+          }
+
+        }
+        for(let pa of this.listaPuntosAtencion){
+          if(pa.id==element.puntoasignado){
+            element.puntoasignado=pa.nombre;
+
+          }
+        }
+        this.fichaModel.push(element);
+      }
+    }
+  }
+
+  asignarQueja(i):void {
+    console.log('ID LA QUEJA A atender',i);
+    this.fichaModel=[];
+    for(let element of this.listaQuejas){
+      if(element.id===i){
+        for(let mi of this.listaMediosIngreso){
+          if(mi.codigodato==element.medioingreso){
+            element.medioingreso=mi.nombre;
+
+          }
+        }
+        for(let pa of this.listaPuntosAtencion){
+          if(pa.id==element.puntoasignado){
+            element.puntoasignado=pa.nombre;
+
+          }
+        }
+        this.fichaModel.push(element);
+      }
+      this.clean();
+    }
+
+
+    for(let element of this.listaQuejas){
+      if(element.id===i){
+        console.log('ESTA ES LA QUEJA A ASIGNAR',element);
+        this.updateForm.patchValue({
+          descripcion:[element.descripcion],
+          estado: [element.estado],
+          queja:[element.siglas+'-'+element.id+'-'+element.anio],
+          id:[element.id]
+          });
+      }
+    }
+  }
+
+  asignarUsuarioQueja(){
+    console.log('ESTO LLEGA AL METOO DE ASIGNAR USUARIO QUEJA',this.updateForm.value);
+    this.clean();
+  }
+
+  rechazarQueja(i):void {
+    console.log('ID LA QUEJA A atender',i);
+
+    for(let element of this.listaQuejas){
+      if(element.id===i){
+        console.log('ESTA ES LA QUEJA A RECHAZAR',element);
+        this.updateForm.patchValue({
+          descripcion:[element.descripcion],
+          estado: [element.estado],
+          queja:[element.siglas+'-'+element.id+'-'+element.anio],
+          id:[element.id]
+          });
+      }
+    }
+  }
+
+  ingresarDetalleQueja(i):void {
     console.log('ID LA QUEJA A atender',i);
 
     for(let element of this.listaQuejas){
@@ -243,7 +328,9 @@ export class AsignQuejaMalServicioComponent  implements OnInit {
       id:[' '],
       queja:[' '],
       descripcion:[' '],
-      estado: [' ']
+      estado: [' '],
+      puntoatencion:[''],
+      usuario:['']
       });
   }
 
@@ -311,6 +398,30 @@ export class AsignQuejaMalServicioComponent  implements OnInit {
       console.log('mapping',this.tableModel);
     });
   }
+  onChange(i) {
+    console.log('EN SELEEECT',i); // Aquí iría tu lógica al momento de seleccionar algo
+    this.obtenerUsuariosByPa(i);
+
+}
+
+
+obtenerUsuariosByPa(i) {
+  this.servicios.getAllUsers().subscribe(resp => {
+    console.log('lista usuarios',resp);
+    let tablePA=[];
+    let j=0;
+    for(let element of this.listaUsuarios){
+      if(element.codigopuntoasignado==i){
+
+        tablePA.push(element);
+
+      }
+    }
+    this.listaUsuarioByPa=tablePA;
+    console.log('lista filtrada',tablePA);
+  });
+}
+
 
 
   }
